@@ -2,7 +2,7 @@
 - Yingge Zhou
 - Gawun Kim
 ---
-![UML diagram 1](member_pictures/gawun.png)
+<img src="member_pictures/gawun.png" width="300" height="200"> 
 ---
 - Siyan Dong
 - Junjie Zhu
