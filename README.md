@@ -1,5 +1,5 @@
 # CYAN 
-Yingge Zhou
-Gawun Kim
-Siyan Dong
-Junjie Zhu
+- Yingge Zhou
+- Gawun Kim
+- Siyan Dong
+- Junjie Zhu
