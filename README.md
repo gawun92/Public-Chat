@@ -1,4 +1,4 @@
-CYAN \n
+# CYAN 
 Yingge Zhou
 Gawun Kim
 Siyan Dong
