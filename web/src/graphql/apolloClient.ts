@@ -18,7 +18,7 @@ export function getApolloClient() {
   const isStorybook = Boolean(window.origin === 'http://localhost:6006')
 
   const httpLink = new HttpLink({
-    uri: isStorybook ? 'http://localhost:3000/graphql' : '/graphql',
+    uri: isStorybook ? 'http://localhost:3005/graphql' : '/graphql',
     credentials: 'same-origin',
     fetch: (uri: any, options: any) => {
       const reqBody = JSON.parse(options!.body! as string)
@@ -29,7 +29,7 @@ export function getApolloClient() {
   })
 
   const wsLink = new WebSocketLink({
-    uri: appCtx.wsUrl || 'ws://localhost:3000/graphqlsubscription',
+    uri: appCtx.wsUrl || 'ws://localhost:3005/graphqlsubscription',
     options: {
       reconnect: true,
     },
