@@ -1,7 +1,7 @@
 # CYAN 
 - Yingge Zhou
 ### <img src="member_pictures/jess.JPG" width="300" height="300"> 
-
+ 
 - Gawun Kim 
 
 ### <img src="member_pictures/gawun.png" width="300" height="300"> 
