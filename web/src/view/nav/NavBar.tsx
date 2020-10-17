@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { useLocation } from '@reach/router'
 import * as React from 'react'
 import { useContext, useEffect } from 'react'
