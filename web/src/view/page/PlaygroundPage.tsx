@@ -1,7 +1,9 @@
+/* eslint-disable prettier/prettier */
 import { RouteComponentProps } from '@reach/router'
 import * as React from 'react'
 import { Login } from '../auth/Login'
 import { AppRouteParams, PlaygroundApp } from '../nav/route'
+import { Demo } from '../playground/Demo'
 import { Surveys } from '../playground/Surveys'
 import { Page } from './Page'
 
@@ -16,6 +18,8 @@ function getPlaygroundApp(app?: PlaygroundApp) {
     return <div>choose an app</div>
   }
   switch (app) {
+    case PlaygroundApp.DEMO:
+      return <Demo />
     case PlaygroundApp.SURVEYS:
       return <Surveys />
     case PlaygroundApp.LOGIN:

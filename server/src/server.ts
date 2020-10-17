@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 require('honeycomb-beeline')({
   writeKey: process.env.HONEYCOMB_KEY || 'd29d5f5ec24178320dae437383480737',
   dataset: process.env.APP_NAME || 'bespin',
@@ -240,11 +241,9 @@ initORM()
   )
   .catch(err => console.error(err))
 
-  server.express.get('/',(req,res) =>{
-    //
-  }
-  )
-  server.express.post('/',(req,res) =>{
-    //
-  }
-  )
+server.express.get('/', (req, res) => {
+  //
+})
+server.express.post('/', (req, res) => {
+  //
+})

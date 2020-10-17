@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /**
  * All of our CC URL routes. You may navigate to any route by providing the route
  * and an argument specifying all it's route params, e.g. { taskId: 1, contactId: 3}.
@@ -12,9 +13,11 @@ export enum Route {
   PLAYGROUND_APP = 'app/playground/:app',
 }
 
+
 export enum PlaygroundApp {
   SURVEYS = 'surveys',
   LOGIN = 'login',
+  DEMO = "DEMO"
 }
 
 export function getSurveyPath(surveyId?: number) {
