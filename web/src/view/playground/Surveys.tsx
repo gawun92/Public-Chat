@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { useQuery, useSubscription } from '@apollo/client'
-import { useLocation } from '@reach/router'
 import * as React from 'react'
 import { Fragment, useContext, useEffect, useState } from 'react'
 import { strutil } from '../../../../common/src/util'
@@ -28,9 +27,7 @@ import { fetchSurvey, fetchSurveys, subscribeSurveys } from './fetchSurveys'
 import { answerSurveyQuestion, nextSurveyQuestion } from './mutateSurveys'
 
 export function Surveys() {
-  const location = useLocation()
-  const [, surveyId] = (location.search || '').split('?surveyId=')
-  return surveyId ? <Survey surveyId={Number(surveyId)} /> : <SurveyList />
+  return <div>hello world!! </div>
 }
 
 function SurveyList() {

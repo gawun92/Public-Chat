@@ -7,7 +7,7 @@ import { Demo } from '../playground/Demo'
 import { Surveys } from '../playground/Surveys'
 import { Page } from './Page'
 
-interface PlaygroundPageProps extends RouteComponentProps, AppRouteParams {}
+interface PlaygroundPageProps extends RouteComponentProps, AppRouteParams { }
 
 export function PlaygroundPage(props: PlaygroundPageProps) {
   return <Page>{getPlaygroundApp(props.app)}</Page>
