@@ -11,7 +11,7 @@ import {
   FetchSurvey_survey_currentQuestion,
   FetchSurvey_survey_currentQuestion_answers,
   SurveySubscription,
-  SurveySubscriptionVariables,
+  SurveySubscriptionVariables
 } from '../../graphql/query.gen'
 import { Button } from '../../style/button'
 import { H1, H2 } from '../../style/header'
@@ -34,6 +34,9 @@ export function Surveys() {
 
 function SurveyList() {
   const { loading, data } = useQuery<FetchSurveys>(fetchSurveys)
+  console.log("loading : ", loading, typeof (loading))
+  console.log("data : ", data, typeof (data))
+  // loading and : boolean
   if (loading) {
     return <div>loading...</div>
   }
