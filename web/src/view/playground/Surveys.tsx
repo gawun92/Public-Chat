@@ -37,6 +37,7 @@ function SurveyList() {
   console.log("loading : ", loading, typeof (loading))
   console.log("data : ", data, typeof (data))
   // loading and : boolean
+  // data : object - typname , id, name isStarted, isCompleted
   if (loading) {
     return <div>loading...</div>
   }
