@@ -44,6 +44,7 @@ const asyncRoute = (fn: RequestHandler) => (...args: Parameters<RequestHandler>)
 server.express.get('/', (req, res) => {
   console.log('GET /')
   res.redirect('/app')
+ //res.send("welcome home");
 })
 
 server.express.get('/app/*', (req, res) => {
@@ -51,6 +52,11 @@ server.express.get('/app/*', (req, res) => {
   renderApp(req, res)
 })
 
+/*server.express.get('/users/:userId', (req, res) => {
+  //const userId = req.params['userId']
+  res.status(200).type('json').send({ id: 1, name: 'John' })
+})
+*/
 server.express.post(
   '/auth/login',
   asyncRoute(async (req, res) => {
@@ -240,11 +246,4 @@ initORM()
   )
   .catch(err => console.error(err))
 
-  server.express.get('/',(req,res) =>{
-    //
-  }
-  )
-  server.express.post('/',(req,res) =>{
-    //
-  }
-  )
+

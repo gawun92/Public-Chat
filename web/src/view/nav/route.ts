@@ -12,9 +12,17 @@ export enum Route {
   PLAYGROUND_APP = 'app/playground/:app',
 }
 
+
+
+
 export enum PlaygroundApp {
   SURVEYS = 'surveys',
   LOGIN = 'login',
+  DEMO = "DEMO"
+}
+
+export function getDemoPath() {
+  return getPath(Route.PLAYGROUND_APP, { app: PlaygroundApp.DEMO })
 }
 
 export function getSurveyPath(surveyId?: number) {
@@ -29,6 +37,7 @@ export function getLoginPath() {
 export function getPlaygroundPath() {
   return getPath(Route.PLAYGROUND)
 }
+
 
 /**
  * Example: getPath(ROUTES.TASK) returns "/leasing/tasks" while getPath(ROUTES.TASK, {taskId: 5}) returns "leasing/tasks/task/5".
