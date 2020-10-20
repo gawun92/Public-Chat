@@ -109,6 +109,7 @@ function SubNav() {
   }
   return (
     <Nav $isSubNav>
+      <NavItem name="wassup" path={getLoginPath()} />
       <NavItem name="surveys" path={getSurveyPath()} />
       <NavItem name={user ? 'logout' : 'login'} path={getLoginPath()} />
     </Nav>
