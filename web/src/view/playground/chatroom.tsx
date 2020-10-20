@@ -12,7 +12,7 @@ export function Chat() {
         <H1>CS 188 - public chatting room</H1>
         <H2>Please do not use improper language</H2>
         <label></label>
-        <tr id="textView" overflow-y="scroll"></tr>
+        <th id="textView" overflow-y="scroll" align="left"></th>
         <tr>
           <td width="90%">
             <Input type="text" id="input_text" placeholder="Say Hello to all"></Input>
