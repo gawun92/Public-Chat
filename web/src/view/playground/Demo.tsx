@@ -46,8 +46,9 @@ const ST = style('div', 'mb4 w-100 ba b--mid-gray br2 pa3 tc', {
   borderRightWidth: '20px',
 })
 
-const S = style('div', {
+const S = style('div',{
   height: '300px',
   width: '600px',
-  overflow: 'auto',
+  overflowWrap: 'anywhere',
+  overflowY: 'auto',
 })
