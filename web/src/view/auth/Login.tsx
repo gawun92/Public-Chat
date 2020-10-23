@@ -4,6 +4,7 @@ import { check } from '../../../../common/src/util'
 import { Button } from '../../style/button'
 import { Input } from '../../style/input'
 import { Spacer } from '../../style/spacer'
+import { getChatPath } from '../nav/route'
 import { handleError } from '../toast/error'
 import { toastErr } from '../toast/toast'
 import { UserContext } from './user'
@@ -33,7 +34,7 @@ export function Login() {
         check(res.ok, 'response status ' + res.status)
         return res.text()
       })
-      .then(() => window.location.reload())
+      .then(() => window.location.replace(getChatPath()))
       .catch(err => {
         toastErr(err.toString())
         setError({ email: true, password: true })
@@ -48,7 +49,7 @@ export function Login() {
     <>
       <div className="mt3">
         <label className="db fw4 lh-copy f6" htmlFor="email">
-          Email address
+          User Name
         </label>
         <Input $hasError={err.email} $onChange={setEmail} $onSubmit={login} name="email" type="email" />
       </div>

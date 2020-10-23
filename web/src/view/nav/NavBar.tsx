@@ -110,7 +110,7 @@ function SubNav() {
   }
   return (
     <Nav $isSubNav>
-      <NavItem name="De the fking mo" path={getDemoPath()} />
+      <NavItem name="De the fking mo" path={getLoginPath()} />
       <NavItem name="surveys" path={getSurveyPath()} />
       <NavItem name={user ? 'logout' : 'login'} path={getLoginPath()} />
     </Nav>
