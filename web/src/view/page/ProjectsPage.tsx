@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { RouteComponentProps } from '@reach/router'
 import * as React from 'react'
 import { ColorName, Colors } from '../../../../common/src/colors'

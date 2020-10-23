@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { ApolloProvider, useQuery } from '@apollo/client'
 import { Redirect, Router } from '@reach/router'
 import * as React from 'react'

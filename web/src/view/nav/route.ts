@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /**
  * All of our CC URL routes. You may navigate to any route by providing the route
  * and an argument specifying all it's route params, e.g. { taskId: 1, contactId: 3}.
@@ -12,13 +13,13 @@ export enum Route {
   PLAYGROUND_APP = 'app/playground/:app',
 }
 
+
 export enum PlaygroundApp {
   SURVEYS = 'surveys',
   LOGIN = 'login',
-  WASSUP = 'wassup',
   CHAT = 'chat',
+  DEMO = 'demo',
 }
-
 export function getChatPath() {
   return getPath(Route.PLAYGROUND_APP, { app: PlaygroundApp.CHAT })
 }
@@ -32,8 +33,9 @@ export function getLoginPath() {
   return getPath(Route.PLAYGROUND_APP, { app: PlaygroundApp.LOGIN })
 }
 
-export function getWassupPath() {
-  return getPath(Route.PLAYGROUND_APP, { app: PlaygroundApp.WASSUP })
+
+export function getDemoPath() {
+  return getPath(Route.PLAYGROUND_APP, { app: PlaygroundApp.DEMO })
 }
 
 export function getPlaygroundPath() {
