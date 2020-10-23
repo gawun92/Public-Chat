@@ -35,9 +35,9 @@ export function Demo(props: DemoPageProps){
 //const Content = style('div', 'flex-l w-400-l mr100-l')
 
 const S = style('div',{
-  margin: 'auto',
+  //margin: 'auto',
   height: '300px',
-  width: '500px',
+  width: '600px',
   overflowWrap: 'anywhere',
   overflow: 'auto',
 })
@@ -54,7 +54,7 @@ function temp() {
 }
 
 const ST = style('div', 'mb4 w-100 ba b--mid-gray br2 pa3 tc', {
-  width:'600px',
+  //width:'700px',
   borderLeftWidth: '20px',
   borderRightWidth: '20px',
 })
