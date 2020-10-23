@@ -12,7 +12,9 @@ export function Chat() {
         <H1>CS 188 - public chatting room</H1>
         <H2>Please do not use improper language</H2>
         <label></label>
-        <th id="textView" overflow-y="scroll" align="left"></th>
+        <S>
+          <th id="textView" align="left"></th>
+        </S>
         <tr>
           <td width="90%">
             <Input type="text" id="input_text" placeholder="Say Hello to all"></Input>
@@ -43,4 +45,11 @@ function temp() {
 const ST = style('div', 'mb4 w-100 ba b--mid-gray br2 pa3 tc', {
   borderLeftWidth: '20px',
   borderRightWidth: '20px',
+})
+
+const S = style('div', {
+  height: '300px',
+  width: '600px',
+  overflowWrap: 'anywhere',
+  overflowY: 'auto',
 })

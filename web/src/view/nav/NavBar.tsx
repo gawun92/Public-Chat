@@ -10,7 +10,7 @@ import { style } from '../../style/styled'
 import { UserContext } from '../auth/user'
 import { addToastListener, removeToastListener, Toast, ToastType } from '../toast/toast'
 import { link } from './Link'
-import { getDemoPath, getLoginPath, getPath, getSurveyPath, Route } from './route'
+import { getLoginPath, getPath, getSurveyPath, Route } from './route'
 
 const title = {
   name: 'CS188',
