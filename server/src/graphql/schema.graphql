@@ -20,7 +20,6 @@ type Query {
 
   surveys: [Survey!]!
   survey (surveyId: Int!): Survey
-  #candy ():
 }
 
 type Mutation {
