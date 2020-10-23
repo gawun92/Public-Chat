@@ -51,4 +51,5 @@ const S = style('div',{
   width: '600px',
   overflowWrap: 'anywhere',
   overflowY: 'auto',
+
 })
