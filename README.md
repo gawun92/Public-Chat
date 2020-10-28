@@ -15,3 +15,8 @@
 - Junjie Zhu
 
 ### <img src="member_pictures/Joe.JPG" width="300" height="300">
+
+
+
+Our Meeting note
+https://docs.google.com/document/d/1TFUCXWKD4bRzJ6wZq23eQzlHfRNGgwcnp6l90g87sn8/edit
