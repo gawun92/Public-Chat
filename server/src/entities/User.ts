@@ -6,16 +6,33 @@ export class User extends BaseEntity implements GraphqlUser {
   @PrimaryGeneratedColumn()
   id: number
 
-  @CreateDateColumn()
-  timeCreated: Date
+  @Column({
+    length: 100,
+    default: '',
+  })
+  email: string
 
-  @UpdateDateColumn()
-  timeUpdated: Date
+  @Column({
+    default: 3,
+  })
+  timestap_last: number
+
+  @Column({
+    length: 5,
+    default: '',
+  })
+  password: string
+
+  @Column({
+    default: 0,
+  })
+  num_improper: number
 
   @Column({
     length: 100,
+    nullable: true,
   })
-  email: string
+  name: string
 
   @Column({
     type: 'enum',
@@ -25,8 +42,13 @@ export class User extends BaseEntity implements GraphqlUser {
   userType: UserType
 
   @Column({
-    length: 100,
-    nullable: true,
+    default: true,
   })
-  name: string
+  online_status: boolean
+
+  @CreateDateColumn()
+  timeCreated: Date
+
+  @UpdateDateColumn()
+  timeUpdated: Date
 }

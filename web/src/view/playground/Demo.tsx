@@ -16,7 +16,7 @@ export function Demo() {
         <S><th id="textView" align="left"></th></S>
         <tr>
           <td width="90%">
-            <Input type="text" id="input_text" placeholder="Say Hello to all"></Input>
+            <Input type="text" id="input_text" placeholder="Say Hello to all" onKeyPress={enter_recognition}></Input>
           </td>
           <td width="10%">
             <Button type="submit" id="insert_text" onClick={temp}>
@@ -34,9 +34,10 @@ let line_num = 0
 function temp() {
   const text = document.getElementById('textView')
   const add = document.createElement('tr')
-  const input = (document.getElementById('input_text') as HTMLInputElement).value
+  const input = (document.getElementById('input_text') as HTMLInputElement)
 
-  add.textContent = 'Line ' + line_num + ': ' + input + '\n'
+  add.textContent = 'Line ' + line_num + ': ' + input.value + '\n'
+  input.value = input.defaultValue
   line_num = line_num + 1
   text?.appendChild(add)
 }
@@ -46,7 +47,13 @@ const ST = style('div', 'mb4 w-100 ba b--mid-gray br2 pa3 tc', {
   borderRightWidth: '20px',
 })
 
-const S = style('div',{
+function enter_recognition(target: any) {
+  if (target.charCode === 13) {
+    document.getElementById("insert_text")?.click()
+  }
+}
+
+const S = style('div', {
   height: '300px',
   width: '600px',
   overflowWrap: 'anywhere',
