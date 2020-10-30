@@ -16,14 +16,14 @@ export function Login() {
   const { user } = useContext(UserContext)
 
   // reset error when email/password change
-  useEffect(() => setError({ ...err, email: !validateEmail(email) }), [email])
+  //useEffect(() => setError({ ...err, email: !validateEmail(email) }), [email])
   useEffect(() => setError({ ...err, password: false }), [password])
 
   function login() {
-    if (!validate(email, password, setError)) {
-      toastErr('invalid email/password')
-      return
-    }
+    //if (!validate(email, password, setError)) {
+    //toastErr('invalid email/password')
+    //return
+    //}
 
     fetch('/auth/login', {
       method: 'POST',
@@ -87,7 +87,7 @@ function Logout() {
   )
 }
 
-function validateEmail(email: string) {
+/*function validateEmail(email: string) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   return re.test(String(email).toLowerCase())
 }
@@ -103,3 +103,4 @@ function validate(
   setError({ email: !validEmail, password: !validPassword })
   return validEmail && validPassword
 }
+*/
