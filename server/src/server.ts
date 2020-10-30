@@ -252,9 +252,4 @@ initORM()
   )
   .catch(err => console.error(err))
 
-server.express.get('/', (req, res) => {
-  //
-})
-server.express.post('/', (req, res) => {
-  //
-})
+
