@@ -9,7 +9,7 @@ import { Page } from '../page/Page'
 export function Demo() {
   function helper() {
     const input = (document.getElementById('input_text') as HTMLInputElement).value
-    fetch('/playground/demo', {
+    void fetch('/playground/demo', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ input }),
