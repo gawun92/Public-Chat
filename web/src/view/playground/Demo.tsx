@@ -7,6 +7,29 @@ import { style } from '../../style/styled'
 import { Page } from '../page/Page'
 
 export function Demo() {
+  function helper() {
+    const input = (document.getElementById('input_text') as HTMLInputElement).value
+    fetch('/playground/demo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ input }),
+    })
+  }
+  function demo(target: any) {
+    if (target.charCode === 13) {
+      document.getElementById("insert_text")?.click()
+    }
+  }
+  function temp() {
+    const text = document.getElementById('textView')
+    const add = document.createElement('tr')
+    const input = (document.getElementById('input_text') as HTMLInputElement)
+    helper()
+    add.textContent = 'Line ' + line_num + ': ' + input.value + '\n'
+    input.value = input.defaultValue
+    line_num = line_num + 1
+    text?.appendChild(add)
+  }
   return (
     <Page>
       <ST>
@@ -16,7 +39,7 @@ export function Demo() {
         <S><th id="textView" align="left"></th></S>
         <tr>
           <td width="90%">
-            <Input type="text" id="input_text" placeholder="Say Hello to all" onKeyPress={enter_recognition}></Input>
+            <Input type="text" id="input_text" placeholder="Say Hello to all" onKeyPress={demo}></Input>
           </td>
           <td width="10%">
             <Button type="submit" id="insert_text" onClick={temp}>
@@ -31,27 +54,18 @@ export function Demo() {
 }
 
 let line_num = 0
-function temp() {
-  const text = document.getElementById('textView')
-  const add = document.createElement('tr')
-  const input = (document.getElementById('input_text') as HTMLInputElement)
 
-  add.textContent = 'Line ' + line_num + ': ' + input.value + '\n'
-  input.value = input.defaultValue
-  line_num = line_num + 1
-  text?.appendChild(add)
-}
 
 const ST = style('div', 'mb4 w-100 ba b--mid-gray br2 pa3 tc', {
   borderLeftWidth: '20px',
   borderRightWidth: '20px',
 })
 
-function enter_recognition(target: any) {
-  if (target.charCode === 13) {
-    document.getElementById("insert_text")?.click()
-  }
-}
+// function enter_recognition(target: any) {
+//   if (target.charCode === 13) {
+//     document.getElementById("insert_text")?.click()
+//   }
+// }
 
 const S = style('div', {
   height: '300px',
