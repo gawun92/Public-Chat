@@ -27,6 +27,7 @@ import { getSchema, graphqlRoot, pubsub } from './graphql/api'
 import { ConnectionManager } from './graphql/ConnectionManager'
 import { expressLambdaProxy } from './lambda/handler'
 import { renderApp } from './render'
+import { getTime, save_curr_user, whoiam } from './user_data'
 
 const server = new GraphQLServer({
   typeDefs: getSchema(),
@@ -52,6 +53,19 @@ server.express.get('/app/*', (req, res) => {
   renderApp(req, res)
 })
 
+
+
+server.express.post(
+  '/playground/demo',
+  asyncRoute(async (req, res) => {
+    // const temp = req.body.name
+    // const temp1 = req.body.text
+    console.log(whoiam(), getTime(), req.body.input)
+    // It is printing the text from textbox
+  }
+
+  ))
+
 server.express.post(
   '/auth/login',
   asyncRoute(async (req, res) => {
@@ -68,7 +82,7 @@ server.express.post(
     else {
       console.log('nope')
     }
-
+    save_curr_user(name)
     if (!user) {
       const reply = 'Hello your user name is ' + name
       res.status(403).send(reply)
