@@ -78,14 +78,10 @@ const InnerFrame = style('div', 'mb4 w-100 ba b--mid-gray br2 pa3 tc', {
   width: '600px',
   overflowWrap: 'anywhere',
   overflowY: 'auto',
-<<<<<<< HEAD
-=======
 
   //only 'bad' thing about this is the messages come out from the bottom first
   display: 'flex',
   flexDirection: 'column-reverse',
-
->>>>>>> master
 })
 
 
