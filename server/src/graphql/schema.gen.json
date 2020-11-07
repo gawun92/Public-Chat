@@ -543,6 +543,41 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "updateChatHistory",
+            "description": null,
+            "args": [
+              {
+                "name": "name",
+                "description": null,
+                "type":{
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              {
+                "name": "text",
+                "description": null,
+                "type":{
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -589,6 +624,7 @@
         "enumValues": null,
         "possibleTypes": null
       },
+
       {
         "kind": "OBJECT",
         "name": "Subscription",
@@ -1059,6 +1095,9 @@
             "isDeprecated": false,
             "deprecationReason": null
           },
+
+
+
           {
             "name": "deprecationReason",
             "description": null,

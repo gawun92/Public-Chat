@@ -19,7 +19,6 @@ export async function migrate(): Promise<void> {
   await transactionLock(`${table} write`, async sql => {
     console.log('[db] acquired migration table lock')
     await checkFailedMigrations(sql)
-
     // Get all successful migrations from the DB.
     const successes = await sql.query<Migration[]>('SELECT * from ?? where success=?', [table, true])
     // Verify successful migrations exist and have not been modified.

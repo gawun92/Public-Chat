@@ -240,6 +240,21 @@ export interface SurveyQuestion {
   answers: SurveyQuestion_answers[];
 }
 
+
+
+// ====================================================
+// GraphQL fragment: UpdateChatHistory
+// ====================================================
+
+export interface UpdateChatHistory {
+  updateChatHistory: boolean;
+}
+
+export interface UpdateChatHistoryVariables {
+  name: string;
+  text: string;
+}
+
 /* tslint:disable */
 /* eslint-disable */
 // @generated
