@@ -24,9 +24,6 @@ export function Demo() {
 
   function temp() {
     const text = document.getElementById('textView')
-
-    //  const isScrolledToBottom = text!.scrollHeight - text!.clientHeight <= text!.scrollTop + 1
-
     const add = document.createElement('tr')
     const input = (document.getElementById('input_text') as HTMLInputElement)
     helper()
@@ -34,10 +31,6 @@ export function Demo() {
     input.value = input.defaultValue
     line_num = line_num + 1
     text?.appendChild(add)
-
-    // if (isScrolledToBottom) {
-    //   text!.scrollTop = text!.scrollHeight - text!.clientHeight
-    // }
 
   }
 
