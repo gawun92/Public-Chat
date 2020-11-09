@@ -2,6 +2,7 @@ import { readFileSync } from 'fs'
 import { PubSub } from 'graphql-yoga'
 import path from 'path'
 import { check } from '../../../common/src/util'
+import { Chat } from '../entities/Chat'
 import { Survey } from '../entities/Survey'
 import { SurveyAnswer } from '../entities/SurveyAnswer'
 import { SurveyQuestion } from '../entities/SurveyQuestion'
@@ -20,6 +21,7 @@ interface Context {
   request: Request
   response: Response
   pubsub: PubSub
+  chat: Chat
 }
 
 export const graphqlRoot: Resolvers<Context> = {
@@ -36,6 +38,8 @@ export const graphqlRoot: Resolvers<Context> = {
       const surveyAnswer = new SurveyAnswer()
       surveyAnswer.question = question
       surveyAnswer.answer = answer
+
+      // saves a row to the database
       await surveyAnswer.save()
 
       question.survey.currentQuestion?.answers.push(surveyAnswer)
@@ -50,6 +54,14 @@ export const graphqlRoot: Resolvers<Context> = {
       await survey.save()
       ctx.pubsub.publish('SURVEY_UPDATE_' + surveyId, survey)
       return survey
+    },
+    updateChatHistory: async (_, { name, text }, ctx) => {
+      const addNewRow = new Chat()
+      addNewRow.name = name
+      addNewRow.text = text
+      await addNewRow.save()
+      ctx.pubsub.publish('CHAT_UPDATE_' + addNewRow.name, addNewRow.text)
+      return true
     },
   },
   Subscription: {

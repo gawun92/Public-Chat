@@ -137,6 +137,24 @@ export interface FetchSurveyVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: updateChatHistory
+// ====================================================
+
+export interface updateChatHistory {
+  updateChatHistory: boolean;
+}
+
+export interface updateChatHistoryVariables {
+  name: string;
+  text: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: AnswerSurveyQuestion
 // ====================================================
 
