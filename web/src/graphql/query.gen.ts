@@ -137,6 +137,24 @@ export interface FetchSurveyVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: updateChatHistory
+// ====================================================
+
+export interface updateChatHistory {
+  updateChatHistory: boolean;
+}
+
+export interface updateChatHistoryVariables {
+  name: string;
+  text: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: AnswerSurveyQuestion
 // ====================================================
 
@@ -238,21 +256,6 @@ export interface SurveyQuestion {
   prompt: string;
   choices: string[] | null;
   answers: SurveyQuestion_answers[];
-}
-
-
-
-// ====================================================
-// GraphQL fragment: UpdateChatHistory
-// ====================================================
-
-export interface UpdateChatHistory {
-  updateChatHistory: boolean;
-}
-
-export interface UpdateChatHistoryVariables {
-  name: string;
-  text: string;
 }
 
 /* tslint:disable */

@@ -57,11 +57,10 @@ export const graphqlRoot: Resolvers<Context> = {
     },
     updateChatHistory: async (_, { name, text }, ctx) => {
       const addNewRow = new Chat()
-      addNewRow.name = "TEST"
-      addNewRow.text = "THIS IS TEST"
+      addNewRow.name = name
+      addNewRow.text = text
       await addNewRow.save()
-      // ctx.pubsub.publish('CHAT_UPDATE_' + addNewRow.name, addNewRow.text)
-      console.log("hugh??")
+      ctx.pubsub.publish('CHAT_UPDATE_' + addNewRow.name, addNewRow.text)
       return true
     },
   },
