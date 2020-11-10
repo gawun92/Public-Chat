@@ -1,12 +1,41 @@
 /* eslint-disable prettier/prettier */
+import { useQuery, useSubscription } from '@apollo/client'
 import * as React from 'react'
 import { Button } from '../../style/button'
 import { H1, H2 } from '../../style/header'
 import { Input } from '../../style/input'
 import { style } from '../../style/styled'
+import { UserContext } from '../auth/user'
 import { Page } from '../page/Page'
+import { handleError } from '../toast/error'
+import { toast } from '../toast/toast'
+
+
 
 export function Demo() {
+  const user = React.useContext(UserContext)
+  const [userQuery, setUserQuery] = React.useState('')
+  const { loading, data, refetch } = useQuery<FetchCandies>(fetchCandies)
+  if (loading) {
+    return <div>loading...</div>
+  }
+  if (!data || data.candies.length === 0) {
+    return <div>no candies</div>
+  }
+
+  const sub = useSubscription<CandySubscription>(subscribeCandy)
+  React.useEffect(() => {
+    if (sub.data?.candyUpdates) {
+      toast(sub.data?.candyUpdates.user.name + ' got candy! 🍭😋')
+      refetch().catch(handleError)
+    }
+  }, [sub.data])
+
+  function doThrowCandy(email: string) {
+    throwCandy(email).catch(handleError)
+  }
+
+
   function helper() {
     const input = (document.getElementById('input_text') as HTMLInputElement).value
     void fetch('/playground/demo', {

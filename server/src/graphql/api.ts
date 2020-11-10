@@ -1,7 +1,10 @@
+/* eslint-disable prettier/prettier */
 import { readFileSync } from 'fs'
 import { PubSub } from 'graphql-yoga'
 import path from 'path'
+import { getRepository } from 'typeorm'
 import { check } from '../../../common/src/util'
+import { Chat } from '../entities/Chat'
 import { Survey } from '../entities/Survey'
 import { SurveyAnswer } from '../entities/SurveyAnswer'
 import { SurveyQuestion } from '../entities/SurveyQuestion'
@@ -27,6 +30,21 @@ export const graphqlRoot: Resolvers<Context> = {
     self: (_, args, ctx) => ctx.user,
     survey: async (_, { surveyId }) => (await Survey.findOne({ where: { id: surveyId } })) || null,
     surveys: () => Survey.find(),
+    chat: async () => {
+      const chat = await Chat.find()
+      if (chat.length !== 0) {
+        return chat
+      }
+
+      const newChat = chat.map(chat => {
+        const currentChat = new Chat()
+        currentChat.name = chat.name
+        currentChat.text = chat.text
+        return currentChat.save()
+      })
+
+      return await Promise.all(newChat)
+    },
   },
   Mutation: {
     answerSurvey: async (_, { input }, ctx) => {
@@ -51,10 +69,28 @@ export const graphqlRoot: Resolvers<Context> = {
       ctx.pubsub.publish('SURVEY_UPDATE_' + surveyId, survey)
       return survey
     },
+    sendChat: async (_, { name }, ctx) => {
+      const chat = await getRepository(Chat)
+        .createQueryBuilder('chat')
+        .where('chat.name = :name', { name })
+        .getOne()
+      if (!chat) {
+        return false
+      }
+
+      chat.text = chat.text
+      await chat.save()
+      ctx.pubsub.publish('CANDY_UPDATE', chat)
+      return true
+    },
   },
   Subscription: {
     surveyUpdates: {
       subscribe: (_, { surveyId }, context) => context.pubsub.asyncIterator('SURVEY_UPDATE_' + surveyId),
+      resolve: (payload: any) => payload,
+    },
+    chatUpdates: {
+      subscribe: (_, arg, ctx) => ctx.pubsub.asyncIterator('CHAT_UPDATE'),
       resolve: (payload: any) => payload,
     },
   },
