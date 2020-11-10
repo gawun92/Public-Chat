@@ -1,16 +1,15 @@
-/* eslint-disable prettier/prettier */
 import { gql } from '@apollo/client'
 import { getApolloClient } from '../../graphql/apolloClient'
 
-const sendChatMutation = gql`
-  mutation SendChat($name: String!) {
-    sendChat(name: $name)
+const UpdateChatHistoryMutation = gql`
+  mutation updateChatHistory($name: String!, $text: String!) {
+    updateChatHistory(name: $name, text: $text)
   }
 `
 
-export function sendChat(name: string) {
+export function UpdateChatHistory(name: string, text: string) {
   return getApolloClient().mutate<any, any>({
-    mutation: sendChatMutation,
-    variables: { name },
+    mutation: UpdateChatHistoryMutation,
+    variables: { name, text },
   })
 }

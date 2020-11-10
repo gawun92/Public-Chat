@@ -58,10 +58,15 @@ server.express.get('/app/*', (req, res) => {
 server.express.post(
   '/playground/demo',
   asyncRoute(async (req, res) => {
+
     // const temp = req.body.name
     // const temp1 = req.body.text
     console.log(whoiam(), getTime(), req.body.input)
     // It is printing the text from textbox
+
+    // connection.query('INSERT INTO posts SET ?', { title: 'chat' }, function (err, result) {
+    //   console.log(result);
+    // });
   }
 
   ))

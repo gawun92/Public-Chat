@@ -2,7 +2,6 @@
 import { readFileSync } from 'fs'
 import { PubSub } from 'graphql-yoga'
 import path from 'path'
-import { getRepository } from 'typeorm'
 import { check } from '../../../common/src/util'
 import { Chat } from '../entities/Chat'
 import { Survey } from '../entities/Survey'
@@ -23,6 +22,7 @@ interface Context {
   request: Request
   response: Response
   pubsub: PubSub
+  chat: Chat
 }
 
 export const graphqlRoot: Resolvers<Context> = {
@@ -54,6 +54,8 @@ export const graphqlRoot: Resolvers<Context> = {
       const surveyAnswer = new SurveyAnswer()
       surveyAnswer.question = question
       surveyAnswer.answer = answer
+
+      // saves a row to the database
       await surveyAnswer.save()
 
       question.survey.currentQuestion?.answers.push(surveyAnswer)
@@ -69,18 +71,12 @@ export const graphqlRoot: Resolvers<Context> = {
       ctx.pubsub.publish('SURVEY_UPDATE_' + surveyId, survey)
       return survey
     },
-    sendChat: async (_, { name }, ctx) => {
-      const chat = await getRepository(Chat)
-        .createQueryBuilder('chat')
-        .where('chat.name = :name', { name })
-        .getOne()
-      if (!chat) {
-        return false
-      }
-
-      chat.text = chat.text
-      await chat.save()
-      ctx.pubsub.publish('CANDY_UPDATE', chat)
+    updateChatHistory: async (_, { name, text }, ctx) => {
+      const addNewRow = new Chat()
+      addNewRow.name = name
+      addNewRow.text = text
+      await addNewRow.save()
+      ctx.pubsub.publish('CHAT_UPDATE_' + addNewRow.name, addNewRow.text)
       return true
     },
   },
