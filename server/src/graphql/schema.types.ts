@@ -1,6 +1,4 @@
-/* eslint-disable prettier/prettier */
 import { GraphQLResolveInfo } from 'graphql'
-import { Chat } from '../entities/Chat'
 export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } &
@@ -19,6 +17,7 @@ export interface Query {
   self?: Maybe<User>
   surveys: Array<Survey>
   survey?: Maybe<Survey>
+  chat: Array<Chat>
 }
 
 export interface QuerySurveyArgs {
@@ -60,6 +59,12 @@ export interface User {
   id: Scalars['Int']
   userType: UserType
   email: Scalars['String']
+  name: Scalars['String']
+}
+
+export interface Chat {
+  __typename?: 'Chat'
+  text: Scalars['String']
   name: Scalars['String']
 }
 
@@ -183,6 +188,7 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>
   Subscription: ResolverTypeWrapper<{}>
   User: ResolverTypeWrapper<User>
+  Chat: ResolverTypeWrapper<Chat>
   UserType: UserType
   Survey: ResolverTypeWrapper<Survey>
   SurveyQuestion: ResolverTypeWrapper<SurveyQuestion>
@@ -199,6 +205,7 @@ export type ResolversParentTypes = {
   String: Scalars['String']
   Subscription: {}
   User: User
+  Chat: Chat
   Survey: Survey
   SurveyQuestion: SurveyQuestion
   SurveyAnswer: SurveyAnswer
@@ -217,6 +224,7 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QuerySurveyArgs, 'surveyId'>
   >
+  chat?: Resolver<Array<ResolversTypes['Chat']>, ParentType, ContextType>
 }
 
 export type MutationResolvers<
@@ -246,16 +254,16 @@ export type MutationResolvers<
 export type SubscriptionResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
-  > = {
-    surveyUpdates?: SubscriptionResolver<
-      Maybe<ResolversTypes['Survey']>,
-      'surveyUpdates',
-      ParentType,
-      ContextType,
-      RequireFields<SubscriptionSurveyUpdatesArgs, 'surveyId'>
-    >
-    chatUpdates?: SubscriptionResolver<Maybe<ResolversTypes['Chat']>, 'chatUpdates', ParentType, ContextType>
-  }
+> = {
+  surveyUpdates?: SubscriptionResolver<
+    Maybe<ResolversTypes['Survey']>,
+    'surveyUpdates',
+    ParentType,
+    ContextType,
+    RequireFields<SubscriptionSurveyUpdatesArgs, 'surveyId'>
+  >
+  chatUpdates?: SubscriptionResolver<Maybe<ResolversTypes['Chat']>, 'chatUpdates', ParentType, ContextType>
+}
 
 export type UserResolvers<
   ContextType = any,
@@ -264,6 +272,15 @@ export type UserResolvers<
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   userType?: Resolver<ResolversTypes['UserType'], ParentType, ContextType>
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>
+}
+
+export type ChatResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Chat'] = ResolversParentTypes['Chat']
+> = {
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType>
 }
@@ -284,14 +301,14 @@ export type SurveyResolvers<
 export type SurveyQuestionResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['SurveyQuestion'] = ResolversParentTypes['SurveyQuestion']
-  > = {
-    id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-    prompt?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-    choices?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
-    answers?: Resolver<Array<ResolversTypes['SurveyAnswer']>, ParentType, ContextType>
-    survey?: Resolver<ResolversTypes['Survey'], ParentType, ContextType>
-    __isTypeOf?: IsTypeOfResolverFn<ParentType>
-  }
+> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  prompt?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  choices?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
+  answers?: Resolver<Array<ResolversTypes['SurveyAnswer']>, ParentType, ContextType>
+  survey?: Resolver<ResolversTypes['Survey'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>
+}
 
 export type SurveyAnswerResolvers<
   ContextType = any,
@@ -308,6 +325,7 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>
   Subscription?: SubscriptionResolvers<ContextType>
   User?: UserResolvers<ContextType>
+  Chat?: ChatResolvers<ContextType>
   Survey?: SurveyResolvers<ContextType>
   SurveyQuestion?: SurveyQuestionResolvers<ContextType>
   SurveyAnswer?: SurveyAnswerResolvers<ContextType>
