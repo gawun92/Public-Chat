@@ -36,19 +36,12 @@ type Mutation {
 
 type Subscription {
   surveyUpdates (surveyId: Int!): Survey
-
-  chatUpdates: Chat
 }
 
 type User {
   id: Int!
   userType: UserType!
   email: String!
-  name: String!
-}
-
-type Chat {
-  text: String!
   name: String!
 }
 

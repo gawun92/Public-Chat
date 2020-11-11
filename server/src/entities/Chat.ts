@@ -5,9 +5,6 @@ export class Chat extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
-  @CreateDateColumn()
-  timeCreated: Date
-
   @Column({
     length: 100,
     nullable: true,

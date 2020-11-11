@@ -47,7 +47,6 @@ export interface MutationUpdateChatHistoryArgs {
 export interface Subscription {
   __typename?: 'Subscription'
   surveyUpdates?: Maybe<Survey>
-  chatUpdates?: Maybe<Chat>
 }
 
 export interface SubscriptionSurveyUpdatesArgs {
@@ -59,12 +58,6 @@ export interface User {
   id: Scalars['Int']
   userType: UserType
   email: Scalars['String']
-  name: Scalars['String']
-}
-
-export interface Chat {
-  __typename?: 'Chat'
-  text: Scalars['String']
   name: Scalars['String']
 }
 
@@ -194,7 +187,6 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>
   Subscription: ResolverTypeWrapper<{}>
   User: ResolverTypeWrapper<User>
-  Chat: ResolverTypeWrapper<Chat>
   UserType: UserType
   Survey: ResolverTypeWrapper<Survey>
   SurveyQuestion: ResolverTypeWrapper<SurveyQuestion>
@@ -212,7 +204,6 @@ export type ResolversParentTypes = {
   String: Scalars['String']
   Subscription: {}
   User: User
-  Chat: Chat
   Survey: Survey
   SurveyQuestion: SurveyQuestion
   SurveyAnswer: SurveyAnswer
@@ -270,7 +261,6 @@ export type SubscriptionResolvers<
     ContextType,
     RequireFields<SubscriptionSurveyUpdatesArgs, 'surveyId'>
   >
-  chatUpdates?: SubscriptionResolver<Maybe<ResolversTypes['Chat']>, 'chatUpdates', ParentType, ContextType>
 }
 
 export type UserResolvers<
@@ -280,15 +270,6 @@ export type UserResolvers<
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   userType?: Resolver<ResolversTypes['UserType'], ParentType, ContextType>
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>
-}
-
-export type ChatResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['Chat'] = ResolversParentTypes['Chat']
-> = {
-  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType>
 }
@@ -342,7 +323,6 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>
   Subscription?: SubscriptionResolvers<ContextType>
   User?: UserResolvers<ContextType>
-  Chat?: ChatResolvers<ContextType>
   Survey?: SurveyResolvers<ContextType>
   SurveyQuestion?: SurveyQuestionResolvers<ContextType>
   SurveyAnswer?: SurveyAnswerResolvers<ContextType>

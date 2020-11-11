@@ -77,9 +77,5 @@ export const graphqlRoot: Resolvers<Context> = {
       subscribe: (_, { surveyId }, context) => context.pubsub.asyncIterator('SURVEY_UPDATE_' + surveyId),
       resolve: (payload: any) => payload,
     },
-    chatUpdates: {
-      subscribe: (_, arg, ctx) => ctx.pubsub.asyncIterator('CHAT_UPDATE'),
-      resolve: (payload: any) => payload,
-    },
   },
 }

@@ -18,10 +18,17 @@ import { UpdateChatHistory } from './mutateChat'
 export function Demo() {
   const { user } = useContext(UserContext)
   const { loading, data } = useQuery<FetchChat>(fetchChat)
-  //toast(data?.chat?.name)
+  let initchatflag = false
+  const text = document.getElementById('textView')
+  const add = document.createElement('tr')
 
   if (loading) {
     return <div>loading...</div>
+  }
+
+  function initalizeChatHistory(i: number) {
+      add.textContent += data?.chat[i].name + ':' + data?.chat[i].text + '\n'
+      text?.appendChild(add)
   }
 
   function doUpdateChatHistory(name: string, text: string) {
@@ -44,14 +51,19 @@ export function Demo() {
   }
 
   function temp() {
-    const text = document.getElementById('textView')
-    const add = document.createElement('tr')
+    if (initchatflag == false){
+      for (let i = 0; i < 13; i++) {
+        initalizeChatHistory(i)
+      }
+      initchatflag = true
+    }
+
     const input = (document.getElementById('input_text') as HTMLInputElement)
     helper()
 
     doUpdateChatHistory(user === null? "": user.name, input.value)
 
-    add.textContent = (data?.chat.values) + ': ' + input.value + '\n'
+    add.textContent = (user?.name) + ': ' + input.value + '\n'
     input.value = input.defaultValue
     line_num = line_num + 1
     text?.appendChild(add)
