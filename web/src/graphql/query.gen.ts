@@ -24,6 +24,25 @@ export interface FetchUserContext {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: FetchChat
+// ====================================================
+
+export interface FetchChat_chat {
+  __typename: "Chat";
+  name: string;
+  text: string;
+}
+
+export interface FetchChat {
+  chat: FetchChat_chat[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: FetchSurveys
 // ====================================================
 
@@ -203,6 +222,21 @@ export interface NextSurveyQuestion {
 
 export interface NextSurveyQuestionVariables {
   surveyId: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: Chat
+// ====================================================
+
+export interface Chat {
+  __typename: "Chat";
+  name: string;
+  text: string;
 }
 
 /* tslint:disable */

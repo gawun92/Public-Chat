@@ -20,6 +20,8 @@ type Query {
 
   surveys: [Survey!]!
   survey (surveyId: Int!): Survey
+
+  chat: [Chat!]!
 }
 
 type Mutation {
@@ -89,4 +91,9 @@ type SurveyAnswer {
 input SurveyInput {
   questionId: Int!
   answer: String!
+}
+
+type Chat {
+  name: String!
+  text: String!
 }

@@ -17,6 +17,7 @@ export interface Query {
   self?: Maybe<User>
   surveys: Array<Survey>
   survey?: Maybe<Survey>
+  chat: Array<Chat>
 }
 
 export interface QuerySurveyArgs {
@@ -94,6 +95,12 @@ export interface SurveyAnswer {
 export interface SurveyInput {
   questionId: Scalars['Int']
   answer: Scalars['String']
+}
+
+export interface Chat {
+  __typename?: 'Chat'
+  name: Scalars['String']
+  text: Scalars['String']
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -185,6 +192,7 @@ export type ResolversTypes = {
   SurveyQuestion: ResolverTypeWrapper<SurveyQuestion>
   SurveyAnswer: ResolverTypeWrapper<SurveyAnswer>
   SurveyInput: SurveyInput
+  Chat: ResolverTypeWrapper<Chat>
 }
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -200,6 +208,7 @@ export type ResolversParentTypes = {
   SurveyQuestion: SurveyQuestion
   SurveyAnswer: SurveyAnswer
   SurveyInput: SurveyInput
+  Chat: Chat
 }
 
 export type QueryResolvers<
@@ -214,6 +223,7 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QuerySurveyArgs, 'surveyId'>
   >
+  chat?: Resolver<Array<ResolversTypes['Chat']>, ParentType, ContextType>
 }
 
 export type MutationResolvers<
@@ -299,6 +309,15 @@ export type SurveyAnswerResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType>
 }
 
+export type ChatResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Chat'] = ResolversParentTypes['Chat']
+> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>
+}
+
 export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>
   Mutation?: MutationResolvers<ContextType>
@@ -307,6 +326,7 @@ export type Resolvers<ContextType = any> = {
   Survey?: SurveyResolvers<ContextType>
   SurveyQuestion?: SurveyQuestionResolvers<ContextType>
   SurveyAnswer?: SurveyAnswerResolvers<ContextType>
+  Chat?: ChatResolvers<ContextType>
 }
 
 /**

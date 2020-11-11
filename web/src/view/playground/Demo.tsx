@@ -1,6 +1,10 @@
 /* eslint-disable prettier/prettier */
+import { useQuery } from '@apollo/client'
 import * as React from 'react'
 import { useContext } from 'react'
+import {
+  FetchChat
+} from '../../graphql/query.gen'
 import { Button } from '../../style/button'
 import { H1, H2 } from '../../style/header'
 import { Input } from '../../style/input'
@@ -8,11 +12,18 @@ import { style } from '../../style/styled'
 import { UserContext } from '../auth/user'
 import { Page } from '../page/Page'
 import { handleError } from '../toast/error'
+import { fetchChat } from './fetchChat'
 import { UpdateChatHistory } from './mutateChat'
-
 
 export function Demo() {
   const { user } = useContext(UserContext)
+  const { loading, data } = useQuery<FetchChat>(fetchChat)
+  //toast(data?.chat?.name)
+
+  if (loading) {
+    return <div>loading...</div>
+  }
+
   function doUpdateChatHistory(name: string, text: string) {
     UpdateChatHistory(name, text).catch(handleError)
   }
@@ -41,8 +52,9 @@ export function Demo() {
     const input = (document.getElementById('input_text') as HTMLInputElement)
     helper()
 
-    doUpdateChatHistory( user ===null? "":user.name, input.value)
-    add.textContent = 'Line ' + line_num + ': ' + input.value + '\n'
+    doUpdateChatHistory(user === null? "": user.name, input.value)
+
+    add.textContent = (data?.chat.values) + ': ' + input.value + '\n'
     input.value = input.defaultValue
     line_num = line_num + 1
     text?.appendChild(add)
