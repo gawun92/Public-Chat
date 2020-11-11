@@ -43,25 +43,6 @@ export interface FetchChat {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL subscription operation: SubscribeChat
-// ====================================================
-
-export interface SubscribeChat_chatUpdates {
-  __typename: "Chat";
-  name: string;
-  text: string;
-}
-
-export interface SubscribeChat {
-  chatUpdates: SubscribeChat_chatUpdates | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL query operation: FetchSurveys
 // ====================================================
 

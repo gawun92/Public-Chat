@@ -99,3 +99,8 @@ input SurveyInput {
   questionId: Int!
   answer: String!
 }
+
+type Chat {
+  name: String!
+  text: String!
+}

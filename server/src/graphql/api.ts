@@ -22,7 +22,7 @@ interface Context {
   request: Request
   response: Response
   pubsub: PubSub
-  chat: Chat
+  //chat: Chat
 }
 
 export const graphqlRoot: Resolvers<Context> = {
@@ -30,20 +30,12 @@ export const graphqlRoot: Resolvers<Context> = {
     self: (_, args, ctx) => ctx.user,
     survey: async (_, { surveyId }) => (await Survey.findOne({ where: { id: surveyId } })) || null,
     surveys: () => Survey.find(),
+    //chat: async (_, { chatId }) => (await Chat.findOne({ where: { id: chatId } })) || null,
     chat: async () => {
-      const chat = await Chat.find()
-      if (chat.length !== 0) {
-        return chat
-      }
-
-      const newChat = chat.map(chat => {
-        const currentChat = new Chat()
-        currentChat.name = chat.name
-        currentChat.text = chat.text
-        return currentChat.save()
-      })
-
-      return await Promise.all(newChat)
+      const chathistory = await Chat.find()
+      //if (chathistory.length !== 0) {
+      return chathistory
+      //}
     },
   },
   Mutation: {

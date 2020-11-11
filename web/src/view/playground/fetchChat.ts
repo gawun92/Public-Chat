@@ -15,12 +15,3 @@ export const fetchChat = gql`
   }
   ${fragmentChat}
 `
-
-export const subscribeChat = gql`
-  subscription SubscribeChat {
-    chatUpdates {
-      ...Chat
-    }
-  }
-  ${fragmentChat}
-`
