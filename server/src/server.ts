@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 require('honeycomb-beeline')({
-  writeKey: process.env.HONEYCOMB_KEY || 'd29d5f5ec24178320dae437383480737',
+  writeKey: process.env.HONEYCOMB_KEY || '919cc31a267c6777f9b8c6543eecda7b',
   dataset: process.env.APP_NAME || 'cyan',
   serviceName: process.env.APPSERVER_TAG || 'local',
   enabledInstrumentations: ['express', 'mysql2', 'react-dom/server'],

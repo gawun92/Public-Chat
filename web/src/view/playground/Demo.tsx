@@ -21,6 +21,7 @@ export function Demo() {
   let init = false
   const length = data?.chat?.length
 
+
   if (loading) {
     return <div>loading...</div>
   }
@@ -28,11 +29,7 @@ export function Demo() {
   function initialchat(i: number) {
     const test = document.getElementById('textView')
     const add = document.createElement('tr')
-
-
     add.textContent = data?.chat[i].name + ': ' + data?.chat[i].text + '\n'
-
-
     test?.appendChild(add)
   }
 

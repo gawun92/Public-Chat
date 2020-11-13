@@ -20,7 +20,7 @@ export const Config = {
   appName: process.env.APP_NAME || 'cyan',
   appserverPort: Number(process.env.APP_PORT || 3005),
   appserverTag: process.env.APPSERVER_TAG || 'local',
-  honeyKey: process.env.HONEYCOMB_KEY || 'd29d5f5ec24178320dae437383480737',
+  honeyKey: process.env.HONEYCOMB_KEY || '919cc31a267c6777f9b8c6543eecda7b',
   honeyDatasets: (process.env.HONEYCOMB_DATASETS || 'op').split(',').map(d => (isProd() ? d : 'dev-' + d)),
   backgroundService: isServiceEnabled(AppService.BACKGROUND) ? true : !isProd(),
   wsUrl: process.env.WS_URL || 'ws://localhost:3005/graphqlsubscription',
