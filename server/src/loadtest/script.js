@@ -1,5 +1,5 @@
 import http from 'k6/http'
-import { Count, Rate} from 'k6/metrics'
+import { Counter, Rate } from 'k6/metrics'
 
 export const options = {
   scenarios: {
@@ -8,7 +8,7 @@ export const options = {
       executor: 'ramping-arrival-rate',
       startRate: '50',
       timeUnit: '1s',
-      perAllocatedVUs: 50,
+      preAllocatedVUs: 50,
       maxVUs: 100,
       stages: [
         {target: 200, duration: '30s'},
@@ -17,6 +17,7 @@ export const options = {
     },
   },
 }
+
 
 export default function(){
   http.post(
@@ -29,3 +30,4 @@ export default function(){
     }
   )
 }
+
