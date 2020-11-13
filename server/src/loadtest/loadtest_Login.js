@@ -25,7 +25,6 @@ export default function () {
     },
   }
   var res = http.post('http://localhost:3005/auth/login', payload, params)
-  // extract authToken from res
   var authToken = '1d0463bc-0b11-4066-b4c2-5703d2cf8ff8'
   http.get('http://localhost:3005/app/profile', {
     cookies: {
