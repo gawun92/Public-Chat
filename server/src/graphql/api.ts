@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { readFileSync } from 'fs'
 import { PubSub } from 'graphql-yoga'
 import path from 'path'
@@ -21,7 +22,6 @@ interface Context {
   request: Request
   response: Response
   pubsub: PubSub
-  //chat: Chat
 }
 
 export const graphqlRoot: Resolvers<Context> = {
@@ -29,12 +29,9 @@ export const graphqlRoot: Resolvers<Context> = {
     self: (_, args, ctx) => ctx.user,
     survey: async (_, { surveyId }) => (await Survey.findOne({ where: { id: surveyId } })) || null,
     surveys: () => Survey.find(),
-    //chat: async (_, { chatId }) => (await Chat.findOne({ where: { id: chatId } })) || null,
     chat: async () => {
       const chathistory = await Chat.find()
-      //if (chathistory.length !== 0) {
       return chathistory
-      //}
     },
   },
   Mutation: {
@@ -74,6 +71,10 @@ export const graphqlRoot: Resolvers<Context> = {
   Subscription: {
     surveyUpdates: {
       subscribe: (_, { surveyId }, context) => context.pubsub.asyncIterator('SURVEY_UPDATE_' + surveyId),
+      resolve: (payload: any) => payload,
+    },
+    chatUpdates: {
+      subscribe: (_, arg, ctx) => ctx.pubsub.asyncIterator('CHAT_UPDATE'),
       resolve: (payload: any) => payload,
     },
   },

@@ -47,6 +47,7 @@ export interface MutationUpdateChatHistoryArgs {
 export interface Subscription {
   __typename?: 'Subscription'
   surveyUpdates?: Maybe<Survey>
+  chatUpdates?: Maybe<Chat>
 }
 
 export interface SubscriptionSurveyUpdatesArgs {
@@ -261,6 +262,7 @@ export type SubscriptionResolvers<
     ContextType,
     RequireFields<SubscriptionSurveyUpdatesArgs, 'surveyId'>
   >
+  chatUpdates?: SubscriptionResolver<Maybe<ResolversTypes['Chat']>, 'chatUpdates', ParentType, ContextType>
 }
 
 export type UserResolvers<
