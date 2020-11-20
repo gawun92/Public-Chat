@@ -22,9 +22,9 @@ export const options = {
 export default function(){
   http.post(
     'http://localhost:3005/graphql',
-    '{"operationName": "AnswerSurveyQuestion", "variables":{"input":{"answer":"haha","questionId":1}}},"query":"mutation AnswerSurveyQuestion($input: SurveyInput!) {\\n answerSurvey(input: $input)\\n}\\n"}',
+    '{"operationName": "updateChatHistory", "variables":{"name":"Yingge","text":"I am stupid"},"query":"mutation updateChatHistory($name: String!, $text: String!)  {\\n updateChatHistory(name: $name, text: $text)\\n}\\n"}',
     {
-      headers:{
+      headers: {
         'Content-Type': 'application/json',
       },
     }
