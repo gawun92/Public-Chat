@@ -15,6 +15,8 @@ import { fetchChat, subscribeChat } from './fetchChat'
 import { getBadWordPattern } from './mutateBadWordPattern'
 import { UpdateChatHistory } from './mutateChat'
 
+
+
 export function Demo() {
   const { user } = useContext(UserContext)
   const { loading, data, refetch } = useQuery<FetchChat>(fetchChat, { pollInterval: 2000 })
@@ -59,9 +61,14 @@ export function Demo() {
     UpdateChatHistory(name, text).catch(handleError)
   }
 
-  function GetBadWordPattern(chatStr: string) {
-    return getBadWordPattern(chatStr)
+  function badWordDetection(chatStr: string) {
+    getBadWordPattern(chatStr).then(function (resp) {
+      console.log(resp.data.findBadWord)
+      if (resp.data.findBadWord)
+        toast("You cannot use bad word!!!!!!!!")
+    })
   }
+
 
   function clearChatHistory() {
     const chats = document.getElementById('textView')
@@ -92,10 +99,15 @@ export function Demo() {
     const newchat = document.createElement('tr')
     const input = (document.getElementById('input_text') as HTMLInputElement)
     // helper()
-    if (GetBadWordPattern(input.value))
-      toast(input.value + " <-- Do not use bad word")
+    badWordDetection(input.value)
+    // if (badWordDetection(input.value))
+    //   toast("You used a bad word! fuck you")
+
     doUpdateChatHistory(user === null ? "" : user.name, input.value)
-    console.log(GetBadWordPattern("asdf"))
+
+
+
+
     newchat.textContent = (user === null ? "" : user.name) + ': ' + input.value + '\n'
     input.value = input.defaultValue
     chats?.appendChild(newchat)

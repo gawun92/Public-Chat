@@ -175,6 +175,23 @@ export interface FetchSurveyVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: findBadWord
+// ====================================================
+
+export interface findBadWord {
+  findBadWord: boolean;
+}
+
+export interface findBadWordVariables {
+  chatStr: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: updateChatHistory
 // ====================================================
 
