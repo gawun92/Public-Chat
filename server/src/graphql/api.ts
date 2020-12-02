@@ -74,7 +74,7 @@ export const graphqlRoot: Resolvers<Context> = {
     },
     findBadWord: async (_, { chatStr }, ctx) => {
       const total = await (BadWordPattern.find())
-      for (var i = 0; i < total.length; i++) {
+      for (let i = 0; i < total.length; i++) {
         if (chatStr.includes(total[i].pattern))
           return true
       }

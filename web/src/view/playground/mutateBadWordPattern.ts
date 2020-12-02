@@ -10,6 +10,6 @@ const findBadWordMutation = gql`
 export function getBadWordPattern(chatStr: string) {
   return getApolloClient().mutate<any>({
     mutation: findBadWordMutation,
-    variables: { chatStr }
+    variables: { chatStr },
   })
 }
