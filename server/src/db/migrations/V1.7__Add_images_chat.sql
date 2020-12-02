@@ -1,0 +1,1 @@
+INSERT INTO `chat` (`name`, `text`) VALUES ('Admin','This is chat for all. Please do not use improper words.');

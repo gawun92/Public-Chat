@@ -1,0 +1,14 @@
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('Verbal_Abuse','fuck');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('Verbal_Abuse','fck');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('Verbal_Abuse','shit');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('Verbal_Abuse','asshole');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('Verbal_Abuse','ass hole');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('Verbal_Abuse','bitch');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('Verbal_Abuse','dumbass');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('Verbal_Abuse','dumb');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('Verbal_Abuse','damn');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('Verbal_Abuse','stfu');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('disability harassment','bastard');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('disability harassment','retard');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('racial harassment','chingchong');
+INSERT INTO `bad_word_pattern` (`name`, `pattern`) VALUES ('racial harassment','negro');

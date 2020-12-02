@@ -12,12 +12,13 @@ import { Page } from '../page/Page'
 import { handleError } from '../toast/error'
 import { toast } from '../toast/toast'
 import { fetchChat, subscribeChat } from './fetchChat'
+import { getBadWordPattern } from './mutateBadWordPattern'
 import { UpdateChatHistory } from './mutateChat'
 
 export function Demo() {
   const { user } = useContext(UserContext)
-  const { loading, data, refetch } = useQuery<FetchChat>(fetchChat, {pollInterval:2000})
-//  const [ chats, setChats ] = useState(data)
+  const { loading, data, refetch } = useQuery<FetchChat>(fetchChat, { pollInterval: 2000 })
+  //  const [ chats, setChats ] = useState(data)
   const initchatlength = data?.chat?.length
 
   let initchatflag = false
@@ -42,8 +43,8 @@ export function Demo() {
     initialChatHistory(0, initchatlength!)
   }, [data])
 
-  function initialChatHistory(start: number, end:number) {
-    if (initchatflag == false){
+  function initialChatHistory(start: number, end: number) {
+    if (initchatflag == false) {
       for (let i = start; i < end; i++) {
         const chats = document.getElementById('textView')
         const newchat = document.createElement('tr')
@@ -58,21 +59,25 @@ export function Demo() {
     UpdateChatHistory(name, text).catch(handleError)
   }
 
+  function GetBadWordPattern(chatStr: string) {
+    return getBadWordPattern(chatStr)
+  }
+
   function clearChatHistory() {
     const chats = document.getElementById('textView')
     while (chats?.firstChild) {
       chats.removeChild(chats.firstChild);
-  }
+    }
   }
 
-//  function helper() {
-//    const input = (document.getElementById('input_text') as HTMLInputElement).value
-//    void fetch('/playground/demo', {
-//      method: 'POST',
-//      headers: { 'Content-Type': 'application/json' },
-//      body: JSON.stringify({ input }),
-//    })
-//  }
+  // function helper() {
+  //   const input = (document.getElementById('input_text') as HTMLInputElement).value
+  //   void fetch('/playground/demo', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ input }),
+  //   })
+  // }
 
   function enter(target: any) {
     if (target.charCode === 13) {
@@ -86,9 +91,12 @@ export function Demo() {
     const chats = document.getElementById('textView')
     const newchat = document.createElement('tr')
     const input = (document.getElementById('input_text') as HTMLInputElement)
-    //helper()
-    doUpdateChatHistory(user === null? "": user.name, input.value)
-    newchat.textContent = (user === null? "": user.name) + ': ' + input.value + '\n'
+    // helper()
+    if (GetBadWordPattern(input.value))
+      toast(input.value + " <-- Do not use bad word")
+    doUpdateChatHistory(user === null ? "" : user.name, input.value)
+    console.log(GetBadWordPattern("asdf"))
+    newchat.textContent = (user === null ? "" : user.name) + ': ' + input.value + '\n'
     input.value = input.defaultValue
     chats?.appendChild(newchat)
 

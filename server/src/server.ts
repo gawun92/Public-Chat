@@ -61,6 +61,12 @@ server.express.post(
 
     // const temp = req.body.name
     // const temp1 = req.body.text
+    // const bwp = await BadWordPattern.find()
+    // for (var i = 0; i < bwp.length; i++) {
+    //   if (req.body.input.includes(bwp[i].pattern)) {
+    //     console.log("bad language detected : ", " pattern: ", bwp[i].pattern, " name: ", bwp[i].name)
+    //   }
+    // }
     console.log(whoiam(), getTime(), req.body.input)
     // It is printing the text from textbox
 

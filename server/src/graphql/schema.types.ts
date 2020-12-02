@@ -18,6 +18,7 @@ export interface Query {
   surveys: Array<Survey>
   survey?: Maybe<Survey>
   chat: Array<Chat>
+  badwordpattern: Array<BadWordPattern>
 }
 
 export interface QuerySurveyArgs {
@@ -29,6 +30,7 @@ export interface Mutation {
   answerSurvey: Scalars['Boolean']
   nextSurveyQuestion?: Maybe<Survey>
   updateChatHistory: Scalars['Boolean']
+  findBadWord: Scalars['Boolean']
 }
 
 export interface MutationAnswerSurveyArgs {
@@ -42,6 +44,10 @@ export interface MutationNextSurveyQuestionArgs {
 export interface MutationUpdateChatHistoryArgs {
   name: Scalars['String']
   text: Scalars['String']
+}
+
+export interface MutationFindBadWordArgs {
+  chatStr: Scalars['String']
 }
 
 export interface Subscription {
@@ -102,6 +108,12 @@ export interface Chat {
   __typename?: 'Chat'
   name: Scalars['String']
   text: Scalars['String']
+}
+
+export interface BadWordPattern {
+  __typename?: 'BadWordPattern'
+  name: Scalars['String']
+  pattern: Scalars['String']
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -194,6 +206,7 @@ export type ResolversTypes = {
   SurveyAnswer: ResolverTypeWrapper<SurveyAnswer>
   SurveyInput: SurveyInput
   Chat: ResolverTypeWrapper<Chat>
+  BadWordPattern: ResolverTypeWrapper<BadWordPattern>
 }
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -210,115 +223,132 @@ export type ResolversParentTypes = {
   SurveyAnswer: SurveyAnswer
   SurveyInput: SurveyInput
   Chat: Chat
+  BadWordPattern: BadWordPattern
 }
 
 export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
-> = {
-  self?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
-  surveys?: Resolver<Array<ResolversTypes['Survey']>, ParentType, ContextType>
-  survey?: Resolver<
-    Maybe<ResolversTypes['Survey']>,
-    ParentType,
-    ContextType,
-    RequireFields<QuerySurveyArgs, 'surveyId'>
-  >
-  chat?: Resolver<Array<ResolversTypes['Chat']>, ParentType, ContextType>
-}
+  > = {
+    self?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
+    surveys?: Resolver<Array<ResolversTypes['Survey']>, ParentType, ContextType>
+    survey?: Resolver<
+      Maybe<ResolversTypes['Survey']>,
+      ParentType,
+      ContextType,
+      RequireFields<QuerySurveyArgs, 'surveyId'>
+    >
+    chat?: Resolver<Array<ResolversTypes['Chat']>, ParentType, ContextType>
+    badwordpattern?: Resolver<Array<ResolversTypes['BadWordPattern']>, ParentType, ContextType>
+  }
 
 export type MutationResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
-> = {
-  answerSurvey?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationAnswerSurveyArgs, 'input'>
-  >
-  nextSurveyQuestion?: Resolver<
-    Maybe<ResolversTypes['Survey']>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationNextSurveyQuestionArgs, 'surveyId'>
-  >
-  updateChatHistory?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationUpdateChatHistoryArgs, 'name' | 'text'>
-  >
-}
+  > = {
+    answerSurvey?: Resolver<
+      ResolversTypes['Boolean'],
+      ParentType,
+      ContextType,
+      RequireFields<MutationAnswerSurveyArgs, 'input'>
+    >
+    nextSurveyQuestion?: Resolver<
+      Maybe<ResolversTypes['Survey']>,
+      ParentType,
+      ContextType,
+      RequireFields<MutationNextSurveyQuestionArgs, 'surveyId'>
+    >
+    updateChatHistory?: Resolver<
+      ResolversTypes['Boolean'],
+      ParentType,
+      ContextType,
+      RequireFields<MutationUpdateChatHistoryArgs, 'name' | 'text'>
+    >
+    findBadWord?: Resolver<
+      ResolversTypes['Boolean'],
+      ParentType,
+      ContextType,
+      RequireFields<MutationFindBadWordArgs, 'chatStr'>
+    >
+  }
 
 export type SubscriptionResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
-> = {
-  surveyUpdates?: SubscriptionResolver<
-    Maybe<ResolversTypes['Survey']>,
-    'surveyUpdates',
-    ParentType,
-    ContextType,
-    RequireFields<SubscriptionSurveyUpdatesArgs, 'surveyId'>
-  >
-  chatUpdates?: SubscriptionResolver<Maybe<ResolversTypes['Chat']>, 'chatUpdates', ParentType, ContextType>
-}
+  > = {
+    surveyUpdates?: SubscriptionResolver<
+      Maybe<ResolversTypes['Survey']>,
+      'surveyUpdates',
+      ParentType,
+      ContextType,
+      RequireFields<SubscriptionSurveyUpdatesArgs, 'surveyId'>
+    >
+    chatUpdates?: SubscriptionResolver<Maybe<ResolversTypes['Chat']>, 'chatUpdates', ParentType, ContextType>
+  }
 
 export type UserResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
-> = {
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  userType?: Resolver<ResolversTypes['UserType'], ParentType, ContextType>
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>
-}
+  > = {
+    id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+    userType?: Resolver<ResolversTypes['UserType'], ParentType, ContextType>
+    email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType>
+  }
 
 export type SurveyResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Survey'] = ResolversParentTypes['Survey']
-> = {
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  isStarted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
-  isCompleted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
-  currentQuestion?: Resolver<Maybe<ResolversTypes['SurveyQuestion']>, ParentType, ContextType>
-  questions?: Resolver<Array<Maybe<ResolversTypes['SurveyQuestion']>>, ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>
-}
+  > = {
+    id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+    name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    isStarted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+    isCompleted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+    currentQuestion?: Resolver<Maybe<ResolversTypes['SurveyQuestion']>, ParentType, ContextType>
+    questions?: Resolver<Array<Maybe<ResolversTypes['SurveyQuestion']>>, ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType>
+  }
 
 export type SurveyQuestionResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['SurveyQuestion'] = ResolversParentTypes['SurveyQuestion']
-> = {
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  prompt?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  choices?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
-  answers?: Resolver<Array<ResolversTypes['SurveyAnswer']>, ParentType, ContextType>
-  survey?: Resolver<ResolversTypes['Survey'], ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>
-}
+  > = {
+    id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+    prompt?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    choices?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
+    answers?: Resolver<Array<ResolversTypes['SurveyAnswer']>, ParentType, ContextType>
+    survey?: Resolver<ResolversTypes['Survey'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType>
+  }
 
 export type SurveyAnswerResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['SurveyAnswer'] = ResolversParentTypes['SurveyAnswer']
-> = {
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  answer?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  question?: Resolver<ResolversTypes['SurveyQuestion'], ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>
-}
+  > = {
+    id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+    answer?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    question?: Resolver<ResolversTypes['SurveyQuestion'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType>
+  }
 
 export type ChatResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Chat'] = ResolversParentTypes['Chat']
-> = {
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>
-}
+  > = {
+    name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    text?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType>
+  }
+
+export type BadWordPatternResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['BadWordPattern'] = ResolversParentTypes['BadWordPattern']
+  > = {
+    name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    pattern?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType>
+  }
 
 export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>
@@ -329,6 +359,7 @@ export type Resolvers<ContextType = any> = {
   SurveyQuestion?: SurveyQuestionResolvers<ContextType>
   SurveyAnswer?: SurveyAnswerResolvers<ContextType>
   Chat?: ChatResolvers<ContextType>
+  BadWordPattern?: BadWordPatternResolvers<ContextType>
 }
 
 /**

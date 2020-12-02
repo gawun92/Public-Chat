@@ -3,6 +3,7 @@ import { readFileSync } from 'fs'
 import { PubSub } from 'graphql-yoga'
 import path from 'path'
 import { check } from '../../../common/src/util'
+import { BadWordPattern } from '../entities/BadWordPattern'
 import { Chat } from '../entities/Chat'
 import { Survey } from '../entities/Survey'
 import { SurveyAnswer } from '../entities/SurveyAnswer'
@@ -33,6 +34,10 @@ export const graphqlRoot: Resolvers<Context> = {
       const chathistory = await Chat.find()
       return chathistory
     },
+    badwordpattern: async () => {
+      const badword = await BadWordPattern.find()
+      return badword
+    }
   },
   Mutation: {
     answerSurvey: async (_, { input }, ctx) => {
@@ -67,6 +72,14 @@ export const graphqlRoot: Resolvers<Context> = {
       ctx.pubsub.publish('CHAT_UPDATE_' + addNewRow.name, addNewRow.text)
       return true
     },
+    findBadWord: async (_, { chatStr }, ctx) => {
+      const total = await (BadWordPattern.find())
+      for (var i = 0; i < total.length; i++) {
+        if (chatStr.includes(total[i].pattern))
+          return true
+      }
+      return false
+    }
   },
   Subscription: {
     surveyUpdates: {
