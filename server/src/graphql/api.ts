@@ -5,6 +5,7 @@ import path from 'path'
 import { check } from '../../../common/src/util'
 import { BadWordPattern } from '../entities/BadWordPattern'
 import { Chat } from '../entities/Chat'
+import { Images } from '../entities/Images'
 import { Survey } from '../entities/Survey'
 import { SurveyAnswer } from '../entities/SurveyAnswer'
 import { SurveyQuestion } from '../entities/SurveyQuestion'
@@ -37,7 +38,11 @@ export const graphqlRoot: Resolvers<Context> = {
     badwordpattern: async () => {
       const badword = await BadWordPattern.find()
       return badword
-    }
+    },
+    images: async () => {
+      const cuteimages = await Images.find()
+      return cuteimages
+    },
   },
   Mutation: {
     answerSurvey: async (_, { input }, ctx) => {

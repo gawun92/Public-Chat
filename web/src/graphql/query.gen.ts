@@ -62,6 +62,25 @@ export interface ChatSubscription {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: FetchImages
+// ====================================================
+
+export interface FetchImages_images {
+  __typename: "Images";
+  name: string;
+  data: string;
+}
+
+export interface FetchImages {
+  images: FetchImages_images[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: FetchSurveys
 // ====================================================
 
@@ -273,6 +292,21 @@ export interface Chat {
   __typename: "Chat";
   name: string;
   text: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: Images
+// ====================================================
+
+export interface Images {
+  __typename: "Images";
+  name: string;
+  data: string;
 }
 
 /* tslint:disable */

@@ -23,6 +23,7 @@ type Query {
 
   chat: [Chat!]!
   badwordpattern: [BadWordPattern!]!
+  images: [Images!]!
 }
 
 type Mutation {
@@ -104,4 +105,9 @@ type Chat {
 type BadWordPattern {
   name: String!
   pattern: String!
+}
+
+type Images {
+  name: String!
+  data: String!
 }
