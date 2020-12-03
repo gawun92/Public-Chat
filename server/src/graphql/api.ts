@@ -71,11 +71,15 @@ export const graphqlRoot: Resolvers<Context> = {
     },
     updateChatHistory: async (_, { name, text }, ctx) => {
       const addNewRow = new Chat()
-      addNewRow.name = name
-      addNewRow.text = text
-      await addNewRow.save()
-      ctx.pubsub.publish('CHAT_UPDATE_' + addNewRow.name, addNewRow.text)
-      return true
+      const findUser = check(await User.findOne({ where: { name: name } }))
+      if(findUser.online_status){
+        addNewRow.name = name
+        addNewRow.text = text
+        await addNewRow.save()
+        ctx.pubsub.publish('CHAT_UPDATE_' + addNewRow.name, addNewRow.text)
+        return true
+      }
+      return false
     },
     findBadWord: async (_, { chatStr }, ctx) => {
       const total = await (BadWordPattern.find())
@@ -84,6 +88,18 @@ export const graphqlRoot: Resolvers<Context> = {
           return true
       }
       return false
+    },
+    updateUserBadWordCount: async (_, { username }, ctx) => {
+      const findUser = check(await User.findOne({ where: { name: username } }))
+      findUser.num_improper = findUser?.num_improper + 1 //////how to add one
+      if(findUser.num_improper > 5){
+        findUser.online_status = false
+        await findUser?.save()
+        return false
+      }
+      await findUser?.save()
+      //ctx.pubsub.publish(findUser.name + 'User Bad Word_' + findUser.num_improper)
+      return true
     }
   },
   Subscription: {

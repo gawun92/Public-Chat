@@ -24,6 +24,8 @@ type Query {
   chat: [Chat!]!
   badwordpattern: [BadWordPattern!]!
   images: [Images!]!
+  user: [User!]!
+
 }
 
 type Mutation {
@@ -35,6 +37,8 @@ type Mutation {
 
   updateChatHistory (name: String!, text:String!): Boolean!
   findBadWord (chatStr: String!): Boolean!
+
+  updateUserBadWordCount (username: String!): Boolean!
 }
 
 type Subscription {
@@ -47,6 +51,7 @@ type User {
   userType: UserType!
   email: String!
   name: String!
+  num_improper: Int!
 }
 
 enum UserType { ADMIN, USER }

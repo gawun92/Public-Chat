@@ -15,7 +15,7 @@ import { fetchChat, subscribeChat } from './fetchChat'
 import { fetchImages } from './fetchImages'
 import { getBadWordPattern } from './mutateBadWordPattern'
 import { UpdateChatHistory } from './mutateChat'
-
+import { UpdateUserBadWordCount } from './mutateUser'
 
 export function Demo() {
   const { user } = useContext(UserContext)
@@ -79,12 +79,24 @@ export function Demo() {
   function doUpdateChatHistory(name: string, text: string) {
     UpdateChatHistory(name, text).catch(handleError)
   }
+  function doUpdateUserBadWordCount( username: string){
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    UpdateUserBadWordCount(username).then(function (resp) {
+      console.log(resp.data.updateUserBadWordCount)
+      if (!resp.data.updateUserBadWordCount)
+        toast("You are removed!!!!!!!!")
+    })
+  }
 
   function badWordDetection(chatStr: string) {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getBadWordPattern(chatStr).then(function (resp) {
       console.log(resp.data.findBadWord)
-      if (resp.data.findBadWord)
+      if (resp.data.findBadWord){
         toast("You cannot use bad word!!!!!!!!")
+        doUpdateUserBadWordCount(user === null ? "" : user.name)
+        //user.num_improper = user.num_improper + 1
+      }
     })
   }
 
@@ -127,6 +139,7 @@ export function Demo() {
     const newchat = document.createElement('tr')
     const input = (document.getElementById('input_text') as HTMLInputElement)
     // helper()
+    //times =1
     badWordDetection(input.value)
     // if (badWordDetection(input.value))
     //   toast("You used a bad word! fuck you")
