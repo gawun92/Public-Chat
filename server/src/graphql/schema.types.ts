@@ -19,6 +19,7 @@ export interface Query {
   survey?: Maybe<Survey>
   chat: Array<Chat>
   badwordpattern: Array<BadWordPattern>
+  user: Array<User>
 }
 
 export interface QuerySurveyArgs {
@@ -31,6 +32,7 @@ export interface Mutation {
   nextSurveyQuestion?: Maybe<Survey>
   updateChatHistory: Scalars['Boolean']
   findBadWord: Scalars['Boolean']
+  updateUserBadWordCount: Scalars['Boolean']
 }
 
 export interface MutationAnswerSurveyArgs {
@@ -49,6 +51,9 @@ export interface MutationUpdateChatHistoryArgs {
 export interface MutationFindBadWordArgs {
   chatStr: Scalars['String']
 }
+export interface MutationUpdateUserBadWordCountArgs {
+  username: Scalars['String']
+}
 
 export interface Subscription {
   __typename?: 'Subscription'
@@ -66,6 +71,7 @@ export interface User {
   userType: UserType
   email: Scalars['String']
   name: Scalars['String']
+  num_improper: Scalars['Int']
 }
 
 export enum UserType {
@@ -115,6 +121,7 @@ export interface BadWordPattern {
   name: Scalars['String']
   pattern: Scalars['String']
 }
+
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
 
@@ -240,6 +247,7 @@ export type QueryResolvers<
   >
   chat?: Resolver<Array<ResolversTypes['Chat']>, ParentType, ContextType>
   badwordpattern?: Resolver<Array<ResolversTypes['BadWordPattern']>, ParentType, ContextType>
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
 }
 
 export type MutationResolvers<
@@ -270,6 +278,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationFindBadWordArgs, 'chatStr'>
   >
+  updateUserBadWordCount?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateUserBadWordCountArgs, 'username'>
+  >
 }
 
 export type SubscriptionResolvers<
@@ -294,6 +308,7 @@ export type UserResolvers<
   userType?: Resolver<ResolversTypes['UserType'], ParentType, ContextType>
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  num_improper?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType>
 }
 
