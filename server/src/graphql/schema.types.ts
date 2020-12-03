@@ -19,7 +19,9 @@ export interface Query {
   survey?: Maybe<Survey>
   chat: Array<Chat>
   badwordpattern: Array<BadWordPattern>
+  images: Array<Images>
   user: Array<User>
+
 }
 
 export interface QuerySurveyArgs {
@@ -122,6 +124,11 @@ export interface BadWordPattern {
   pattern: Scalars['String']
 }
 
+export interface Images {
+  __typename?: 'Images'
+  name: Scalars['String']
+  data: Scalars['String']
+}
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
 
@@ -214,6 +221,7 @@ export type ResolversTypes = {
   SurveyInput: SurveyInput
   Chat: ResolverTypeWrapper<Chat>
   BadWordPattern: ResolverTypeWrapper<BadWordPattern>
+  Images: ResolverTypeWrapper<Images>
 }
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -231,6 +239,7 @@ export type ResolversParentTypes = {
   SurveyInput: SurveyInput
   Chat: Chat
   BadWordPattern: BadWordPattern
+  Images: Images
 }
 
 export type QueryResolvers<
@@ -247,6 +256,7 @@ export type QueryResolvers<
   >
   chat?: Resolver<Array<ResolversTypes['Chat']>, ParentType, ContextType>
   badwordpattern?: Resolver<Array<ResolversTypes['BadWordPattern']>, ParentType, ContextType>
+  images?: Resolver<Array<ResolversTypes['Images']>, ParentType, ContextType>
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
 }
 
@@ -365,6 +375,15 @@ export type BadWordPatternResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType>
 }
 
+export type ImagesResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Images'] = ResolversParentTypes['Images']
+> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  data?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>
+}
+
 export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>
   Mutation?: MutationResolvers<ContextType>
@@ -375,6 +394,7 @@ export type Resolvers<ContextType = any> = {
   SurveyAnswer?: SurveyAnswerResolvers<ContextType>
   Chat?: ChatResolvers<ContextType>
   BadWordPattern?: BadWordPatternResolvers<ContextType>
+  Images?: ImagesResolvers<ContextType>
 }
 
 /**
