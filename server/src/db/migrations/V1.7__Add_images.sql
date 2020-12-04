@@ -15,4 +15,14 @@ INSERT INTO `images` (`name`, `data`) VALUES ('test', '(ง •̀_•́)ง (*�
 INSERT INTO `images` (`name`, `data`) VALUES ('test', '꒰๑´•.̫ • `๑꒱');
 INSERT INTO `images` (`name`, `data`) VALUES ('test', '(..•˘_˘•..)');
 INSERT INTO `images` (`name`, `data`) VALUES ('test', '(๑•́ ₃•̀๑)');
-INSERT INTO `images` (`name`, `data`) VALUES ('test', ',,Ծ‸Ծ,,');
+INSERT INTO `images` (`name`, `data`) VALUES ('test', '🙄');
+INSERT INTO `images` (`name`, `data`) VALUES ('test', '🥰');
+INSERT INTO `images` (`name`, `data`) VALUES ('test', '😭');
+INSERT INTO `images` (`name`, `data`) VALUES ('test', '😘');
+INSERT INTO `images` (`name`, `data`) VALUES ('test', '😅');
+INSERT INTO `images` (`name`, `data`) VALUES ('test', '👍🏻');
+INSERT INTO `images` (`name`, `data`) VALUES ('test', '👎🏻');
+INSERT INTO `images` (`name`, `data`) VALUES ('test', '👹');
+INSERT INTO `images` (`name`, `data`) VALUES ('test', '👅');
+INSERT INTO `images` (`name`, `data`) VALUES ('test', '💩');
+INSERT INTO `images` (`name`, `data`) VALUES ('test', '👻');

@@ -27,7 +27,6 @@ import { getSchema, graphqlRoot, pubsub } from './graphql/api'
 import { ConnectionManager } from './graphql/ConnectionManager'
 import { expressLambdaProxy } from './lambda/handler'
 import { renderApp } from './render'
-import { getTime, save_curr_user, whoiam } from './user_data'
 
 const server = new GraphQLServer({
   typeDefs: getSchema(),
@@ -58,21 +57,6 @@ server.express.get('/app/*', (req, res) => {
 server.express.post(
   '/playground/demo',
   asyncRoute(async (req, res) => {
-
-    // const temp = req.body.name
-    // const temp1 = req.body.text
-    // const bwp = await BadWordPattern.find()
-    // for (var i = 0; i < bwp.length; i++) {
-    //   if (req.body.input.includes(bwp[i].pattern)) {
-    //     console.log("bad language detected : ", " pattern: ", bwp[i].pattern, " name: ", bwp[i].name)
-    //   }
-    // }
-    console.log(whoiam(), getTime(), req.body.input)
-    // It is printing the text from textbox
-
-    // connection.query('INSERT INTO posts SET ?', { title: 'chat' }, function (err, result) {
-    //   console.log(result);
-    // });
   }
 
   ))
@@ -87,15 +71,15 @@ server.express.post(
     console.log(password)
     const user = await User.findOne({ where: { name } })
 
-    if (user) {
-      console.log('found you')
-    }
-    else {
-      console.log('nope')
-    }
-    save_curr_user(name)
+    // if the ID does not exist
     if (!user) {
-      const reply = 'Hello your user name is ' + name
+      const reply = 'Non-Existed ID'
+      res.status(403).send(reply)
+      return
+    }
+    // if the password does not match with the table from SQL
+    if (user?.password != password) {
+      const reply = 'Wrong PW'
       res.status(403).send(reply)
       return
     }

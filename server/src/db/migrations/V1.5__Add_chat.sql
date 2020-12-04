@@ -1,6 +1,1 @@
-INSERT INTO `chat` (`name`, `text`) VALUES ('Gawun','ssss');
-INSERT INTO `chat` (`name`, `text`) VALUES ('Gawun','ssss');
-INSERT INTO `chat` (`name`, `text`) VALUES ('Gawun','ssss');
-INSERT INTO `chat` (`name`, `text`) VALUES ('Gawun','ssss');
-INSERT INTO `chat` (`name`, `text`) VALUES ('Gawun','ssss');
-INSERT INTO `chat` (`name`, `text`) VALUES ('Gawun','ssss');
+INSERT INTO `chat` (`name`, `text`) VALUES ('Admin','Hello! This is for everyone. Please do not use improper words. If you use more than 5 times of bad words, you will be banned.');

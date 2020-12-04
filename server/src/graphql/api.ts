@@ -72,7 +72,7 @@ export const graphqlRoot: Resolvers<Context> = {
     updateChatHistory: async (_, { name, text }, ctx) => {
       const addNewRow = new Chat()
       const findUser = check(await User.findOne({ where: { name: name } }))
-      if(findUser.online_status){
+      if (findUser.online_status) {
         addNewRow.name = name
         addNewRow.text = text
         await addNewRow.save()
@@ -84,7 +84,8 @@ export const graphqlRoot: Resolvers<Context> = {
     findBadWord: async (_, { chatStr }, ctx) => {
       const total = await (BadWordPattern.find())
       for (let i = 0; i < total.length; i++) {
-        if (chatStr.includes(total[i].pattern))
+        const temp = chatStr.toLowerCase()
+        if (temp.includes(total[i].pattern))
           return true
       }
       return false
@@ -92,7 +93,7 @@ export const graphqlRoot: Resolvers<Context> = {
     updateUserBadWordCount: async (_, { username }, ctx) => {
       const findUser = check(await User.findOne({ where: { name: username } }))
       findUser.num_improper = findUser?.num_improper + 1 //////how to add one
-      if(findUser.num_improper > 5){
+      if (findUser.num_improper > 5) {
         findUser.online_status = false
         await findUser?.save()
         return false
