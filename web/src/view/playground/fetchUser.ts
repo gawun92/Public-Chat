@@ -10,15 +10,6 @@ export const fragmentUser = gql`
 export const fetchUser = gql`
   query FetchUser {
     user {
-      ...user
-    }
-  }
-  ${fragmentUser}
-`
-
-export const subscribeUser = gql`
-  subscription UserSubscription {
-    userUpdates {
       ...User
     }
   }

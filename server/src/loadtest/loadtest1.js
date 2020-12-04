@@ -18,7 +18,7 @@ export const options = {
 export function setup() {
   var payload = JSON.stringify({
     email: 'Yingge',
-    password: 'Iamstupid',
+    password: '345',
   })
   var params = {
     headers: {

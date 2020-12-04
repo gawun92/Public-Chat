@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import http from 'k6/http'
 
 export const options = {
@@ -17,7 +18,7 @@ export const options = {
 export function setup() {
   var payload = JSON.stringify({
     email: 'Yingge',
-    password: 'Iamstupid',
+    password: '345',
   })
   var params = {
     headers: {
@@ -35,6 +36,7 @@ export default function (data) {
   const payload = JSON.stringify({
     operationName: 'FetchChat',
     variables: {},
+    // eslint-disable-next-line prettier/prettier
     query:
       'query FetchChat {\n  chat {\n Chat {\n name\n text\n }\n }\n'
   })

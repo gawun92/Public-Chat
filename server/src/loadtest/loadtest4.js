@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import http from 'k6/http'
 
 export const options = {
@@ -21,7 +22,7 @@ export const options = {
 export function setup() {
   var payload = JSON.stringify({
     email: 'Yingge',
-    password: 'Iamstupid',
+    password: '345',
   })
   var params = {
     headers: {
@@ -42,7 +43,7 @@ export default function (data) {
     operationName: 'updateChatHistory',
     variables: {
       name: "Yingge",
-      text: "I am stupid"
+      text: "345"
     },
     query:
       'mutation updateChatHistory($name: String!, $text: String!)  {\\n updateChatHistory(name: $name, text: $text)\\n}\\n"}'
