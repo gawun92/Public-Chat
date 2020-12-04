@@ -21,6 +21,7 @@ export interface Query {
   badwordpattern: Array<BadWordPattern>
   images: Array<Images>
   user: Array<User>
+
 }
 
 export interface QuerySurveyArgs {
@@ -52,7 +53,6 @@ export interface MutationUpdateChatHistoryArgs {
 export interface MutationFindBadWordArgs {
   chatStr: Scalars['String']
 }
-
 export interface MutationUpdateUserBadWordCountArgs {
   username: Scalars['String']
 }
@@ -257,7 +257,7 @@ export type QueryResolvers<
   chat?: Resolver<Array<ResolversTypes['Chat']>, ParentType, ContextType>
   badwordpattern?: Resolver<Array<ResolversTypes['BadWordPattern']>, ParentType, ContextType>
   images?: Resolver<Array<ResolversTypes['Images']>, ParentType, ContextType>
-  user?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
 }
 
 export type MutationResolvers<
