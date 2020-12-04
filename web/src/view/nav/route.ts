@@ -18,6 +18,7 @@ export enum PlaygroundApp {
   SURVEYS = 'surveys',
   LOGIN = 'login',
   DEMO = 'demo',
+  CREATEACCOUNT = 'createaccount'
 }
 
 export function getSurveyPath(surveyId?: number) {
@@ -36,6 +37,10 @@ export function getDemoPath() {
 
 export function getPlaygroundPath() {
   return getPath(Route.PLAYGROUND)
+}
+
+export function getCreateAccountPath() {
+  return getPath(Route.PLAYGROUND_APP, { app: PlaygroundApp.CREATEACCOUNT })
 }
 
 /**

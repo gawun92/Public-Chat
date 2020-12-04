@@ -4,7 +4,7 @@ import { check } from '../../../../common/src/util'
 import { Button } from '../../style/button'
 import { Input } from '../../style/input'
 import { Spacer } from '../../style/spacer'
-import { getDemoPath } from '../nav/route'
+import { getCreateAccountPath, getDemoPath } from '../nav/route'
 import { handleError } from '../toast/error'
 import { toastErr } from '../toast/toast'
 import { UserContext } from './user'
@@ -41,6 +41,18 @@ export function Login() {
       })
   }
 
+  function createAccount() {
+    fetch('/auth/createAccount', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(() => window.location.replace(getCreateAccountPath()))
+      .catch(err => {
+        toastErr(err.toString())
+        setError({ email: true, password: true })
+      })
+  }
+
   if (user) {
     return <Logout />
   }
@@ -61,6 +73,8 @@ export function Login() {
       </div>
       <div className="mt3">
         <Button onClick={login}>Sign Up</Button>
+        <Button onClick={createAccount}>Create Account</Button>
+        <Button onClick={login}>Change Password</Button>
       </div>
     </>
   )
