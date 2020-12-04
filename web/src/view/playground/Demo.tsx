@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { useQuery, useSubscription } from '@apollo/client'
 import * as React from 'react'
 import { useContext } from 'react'
@@ -231,6 +231,6 @@ const EmojiButton = style('div', 'hover-bg-black-10', {
   lineHeight: '30px',
   margin: '5px',
   display: 'inline-block',
-  float: 'left',
+  cssFloat: 'left',
 })
 
