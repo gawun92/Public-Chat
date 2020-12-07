@@ -21,7 +21,6 @@ export interface Query {
   badwordpattern: Array<BadWordPattern>
   images: Array<Images>
   user: Array<User>
-
 }
 
 export interface QuerySurveyArgs {
@@ -66,7 +65,6 @@ export interface Subscription {
 export interface SubscriptionSurveyUpdatesArgs {
   surveyId: Scalars['Int']
 }
-
 export interface User {
   __typename?: 'User'
   id: Scalars['Int']
@@ -114,6 +112,7 @@ export interface SurveyInput {
 
 export interface Chat {
   __typename?: 'Chat'
+  id: Scalars['Int']
   name: Scalars['String']
   text: Scalars['String']
 }
@@ -247,6 +246,7 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
   self?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
+  ouo?: Resolver<Maybe<ResolversTypes['Chat']>, ParentType, ContextType>
   surveys?: Resolver<Array<ResolversTypes['Survey']>, ParentType, ContextType>
   survey?: Resolver<
     Maybe<ResolversTypes['Survey']>,
@@ -361,6 +361,7 @@ export type ChatResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Chat'] = ResolversParentTypes['Chat']
 > = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType>

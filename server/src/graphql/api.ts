@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import DataLoader from 'dataloader'
 import { readFileSync } from 'fs'
 import { PubSub } from 'graphql-yoga'
 import path from 'path'
@@ -13,6 +14,7 @@ import { User } from '../entities/User'
 import { Resolvers } from './schema.types'
 
 export const pubsub = new PubSub()
+const CHAT_UPDATE = 'CHAT_UPDATE'
 
 export function getSchema() {
   const schema = readFileSync(path.join(__dirname, 'schema.graphql'))
@@ -24,6 +26,7 @@ interface Context {
   request: Request
   response: Response
   pubsub: PubSub
+  chatLoader: DataLoader<number, Chat>
 }
 
 export const graphqlRoot: Resolvers<Context> = {
@@ -32,8 +35,8 @@ export const graphqlRoot: Resolvers<Context> = {
     survey: async (_, { surveyId }) => (await Survey.findOne({ where: { id: surveyId } })) || null,
     surveys: () => Survey.find(),
     chat: async () => {
-      const chathistory = await Chat.find()
-      return chathistory
+      const chats = await Chat.find()
+      return chats
     },
     badwordpattern: async () => {
       const badword = await BadWordPattern.find()
@@ -70,13 +73,13 @@ export const graphqlRoot: Resolvers<Context> = {
       return survey
     },
     updateChatHistory: async (_, { name, text }, ctx) => {
-      const addNewRow = new Chat()
+      const newChat = new Chat()
       const findUser = check(await User.findOne({ where: { name: name } }))
       if (findUser.online_status) {
-        addNewRow.name = name
-        addNewRow.text = text
-        await addNewRow.save()
-        ctx.pubsub.publish('CHAT_UPDATE_' + addNewRow.name, addNewRow.text)
+        newChat.name = name
+        newChat.text = text
+        await newChat.save()
+        ctx.pubsub.publish(CHAT_UPDATE, newChat)
         return true
       }
       return false
@@ -109,7 +112,7 @@ export const graphqlRoot: Resolvers<Context> = {
       resolve: (payload: any) => payload,
     },
     chatUpdates: {
-      subscribe: (_, arg, ctx) => ctx.pubsub.asyncIterator('CHAT_UPDATE'),
+      subscribe: (_, arg, ctx) => ctx.pubsub.asyncIterator(CHAT_UPDATE),
       resolve: (payload: any) => payload,
     },
   },

@@ -10,6 +10,7 @@ require('honeycomb-beeline')({
 import assert from 'assert'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import DataLoader from 'dataloader'
 import { json, raw, RequestHandler, static as expressStatic } from 'express'
 import { getOperationAST, parse as parseGraphql, specifiedRules, subscribe as gqlSubscribe, validate } from 'graphql'
 import { GraphQLServer } from 'graphql-yoga'
@@ -21,6 +22,7 @@ import { checkEqual, Unpromise } from '../../common/src/util'
 import { Config } from './config'
 import { migrate } from './db/migrate'
 import { initORM } from './db/sql'
+import { Chat } from './entities/Chat'
 import { Session } from './entities/Session'
 import { User } from './entities/User'
 import { getSchema, graphqlRoot, pubsub } from './graphql/api'
@@ -28,10 +30,25 @@ import { ConnectionManager } from './graphql/ConnectionManager'
 import { expressLambdaProxy } from './lambda/handler'
 import { renderApp } from './render'
 
+const createChatLoader = () =>
+  new DataLoader<number, Chat>(async chatIds => {
+    const chats = await Chat.findByIds(chatIds as number[])
+    const chatIdsToChat: Record<number, Chat> = {}
+    chats.forEach(c => {
+      chatIdsToChat[c.id]= c
+    })
+    return chatIds.map(cid => chatIdsToChat[cid])
+  })
+
 const server = new GraphQLServer({
   typeDefs: getSchema(),
   resolvers: graphqlRoot as any,
-  context: ctx => ({ ...ctx, pubsub, user: (ctx.request as any)?.user || null }),
+  context: ctx => ({
+    ...ctx,
+    pubsub,
+    user: (ctx.request as any)?.user || null,
+    chatLoader: createChatLoader(),
+  }),
 })
 
 server.express.use(cookieParser())

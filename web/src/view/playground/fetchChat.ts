@@ -3,6 +3,7 @@ import { gql } from '@apollo/client'
 
 export const fragmentChat = gql`
   fragment Chat on Chat {
+    id
     name
     text
   }
@@ -17,7 +18,7 @@ export const fetchChat = gql`
   ${fragmentChat}
 `
 export const subscribeChat = gql`
-  subscription ChatSubscription {
+  subscription ChatSubscription{
     chatUpdates {
       ...Chat
     }

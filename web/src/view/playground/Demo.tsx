@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 import { useQuery, useSubscription } from '@apollo/client'
 import * as React from 'react'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { ChatSubscription, FetchChat, FetchImages } from '../../graphql/query.gen'
 import { Button } from '../../style/button'
 import { H1, H2 } from '../../style/header'
@@ -17,9 +17,21 @@ import { getBadWordPattern } from './mutateBadWordPattern'
 import { UpdateChatHistory } from './mutateChat'
 import { UpdateUserBadWordCount } from './mutateUser'
 
+
 export function Demo() {
   const { user } = useContext(UserContext)
-  const { loading, data, refetch } = useQuery<FetchChat>(fetchChat, { pollInterval: 2000 })
+  const { loading, data } = useQuery<FetchChat>(fetchChat)
+  const sub = useSubscription<ChatSubscription>(subscribeChat)
+  const initchatlength = data?.chat?.length
+  const [status, setStatus] = useState(false)
+
+  if (loading) {
+    return <div>loading...</div>
+  }
+
+  if (!data || data.chat.length === 0) {
+    return <div>no chats</div>
+  }
 
   function test()
   {
@@ -35,50 +47,10 @@ export function Demo() {
   const IM = imagedata.images
   const emojis = (<ol>
       {IM.map(image => (
-        <EmojiButton onClick={() => printemoji(image.data)} key={0}>{image.data}</EmojiButton>
+        <EmojiButton onClick={() => printemoji(image.data)} key={Math.random()}>{image.data}</EmojiButton>
       ))}
     </ol>)
 
-  //  const [ chats, setChats ] = useState(data)
-  const initchatlength = data?.chat?.length
-  let initchatflag = false
-
-  if (loading) {
-    return <div>loading...</div>
-  }
-
-  if (!data || data.chat.length === 0) {
-    return <div>no chats</div>
-  }
-
-  const sub = useSubscription<ChatSubscription>(subscribeChat)
-  React.useEffect(() => {
-    if (sub.data?.chatUpdates) {
-      toast('Message from' + sub.data?.chatUpdates.name + ' has been sent! ouo')
-      refetch().catch(handleError)
-    }
-  }, [sub.data])
-
-  React.useEffect(() => {
-    clearChatHistory()
-    initialChatHistory(0, initchatlength!)
-  }, [data])
-
-  function initialChatHistory(start: number, end: number) {
-    if (initchatflag == false) {
-      for (let i = start; i < end; i++) {
-        const chats = document.getElementById('textView')
-        const newchat = document.createElement('tr')
-        newchat.textContent = data?.chat[i].name + ': ' + data?.chat[i].text + '\n'
-        chats?.appendChild(newchat)
-      }
-      initchatflag = true
-    }
-  }
-
-  function doUpdateChatHistory(name: string, text: string) {
-    UpdateChatHistory(name, text).catch(handleError)
-  }
   function doUpdateUserBadWordCount( username: string){
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     UpdateUserBadWordCount(username).then(function (resp) {
@@ -100,14 +72,6 @@ export function Demo() {
     })
   }
 
-
-  function clearChatHistory() {
-    const chats = document.getElementById('textView')
-    while (chats?.firstChild) {
-      chats.removeChild(chats.firstChild);
-    }
-  }
-
   // function helper() {
   //   const input = (document.getElementById('input_text') as HTMLInputElement).value
   //   void fetch('/playground/demo', {
@@ -125,31 +89,83 @@ export function Demo() {
 
   function printemoji(emoji: string)
   {
-    const chats = document.getElementById('textView')
-    const newchat = document.createElement('tr')
+  //  const chats = document.getElementById('textView')
+  //  const newchat = document.createElement('tr')
     doUpdateChatHistory(user === null ? "" : user.name, emoji)
-    newchat.textContent = (user === null ? "" : user.name) + ': ' + emoji + '\n'
-    chats?.appendChild(newchat)
+   // newchat.textContent = (user === null ? "" : user.name) + ': ' + emoji + '\n'
+   // chats?.appendChild(newchat)
+  }
+
+
+  React.useEffect(() => {
+    if( !status ){
+      setStatus(true)
+      for (let i = 0; i < initchatlength!; i++) {
+        const chats = document.getElementById('textView')
+        const newchat = document.createElement('tr')
+        newchat.textContent = data?.chat[i].name + ': ' + data?.chat[i].text + '\n'
+        chats?.appendChild(newchat)
+      }
+    }
+  });
+
+  React.useEffect(() => {
+    if (sub.data?.chatUpdates) {
+      toast('Message from ' + sub.data?.chatUpdates.name + ' has been sent! ouo')
+      const chats = document.getElementById('textView')
+      const newchat = document.createElement('tr')
+      newchat.textContent = sub.data?.chatUpdates.name + ': ' + sub.data?.chatUpdates.text + '\n'
+      chats?.appendChild(newchat)
+//      console.log(chats)
+//      console.log(data?.chat)
+//      console.log(sub.data?.chatUpdates?.name)
+//      console.log(sub.data?.chatUpdates?.text)
+    }
+  }, [sub.data])
+
+
+
+//  React.useEffect(() => {
+//    clearChatHistory()
+//    initialChatHistory(0, initchatlength!)
+//  }, [data])
+
+//  function initialChatHistory(start: number, end: number) {
+//    if (initchatflag == false) {
+//      for (let i = start; i < end; i++) {
+//        const chats = document.getElementById('textView')
+ //       const newchat = document.createElement('tr')
+//        newchat.textContent = data?.chat[i].name + ': ' + data?.chat[i].text + '\n'
+///        chats?.appendChild(newchat)
+//      }
+//      initchatflag = true
+ //   }
+ // }
+
+//  function clearChatHistory() {
+//    const chats = document.getElementById('textView')
+//    while (chats?.firstChild) {
+//      chats.removeChild(chats.firstChild);
+//    }
+//  }
+
+  function doUpdateChatHistory(name: string, text: string) {
+    UpdateChatHistory(name, text).catch(handleError)
   }
 
   function temp() {
-    clearChatHistory()
-    initialChatHistory(0, initchatlength!)
-    const chats = document.getElementById('textView')
-    const newchat = document.createElement('tr')
+//    const chats = document.getElementById('textView')
+//    const newchat = document.createElement('tr')
     const input = (document.getElementById('input_text') as HTMLInputElement)
     // helper()
     //times =1
     badWordDetection(input.value)
     // if (badWordDetection(input.value))
     //   toast("You used a bad word! fuck you")
-
     doUpdateChatHistory(user === null ? "" : user.name, input.value)
-
-    newchat.textContent = (user === null ? "" : user.name) + ': ' + input.value + '\n'
+//    newchat.textContent = (user === null ? "" : user.name) + ': ' + input.value + '\n'
     input.value = input.defaultValue
-    chats?.appendChild(newchat)
-
+//    chats?.appendChild(newchat)
   }
 
   return (
@@ -231,6 +247,6 @@ const EmojiButton = style('div', 'hover-bg-black-10', {
   lineHeight: '30px',
   margin: '5px',
   display: 'inline-block',
-  float: 'left',
+  cssFloat: 'left',
 })
 

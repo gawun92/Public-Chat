@@ -103,6 +103,7 @@ input SurveyInput {
 }
 
 type Chat {
+  id: Int!
   name: String!
   text: String!
 }
