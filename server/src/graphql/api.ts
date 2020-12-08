@@ -62,7 +62,7 @@ export const graphqlRoot: Resolvers<Context> = {
           result += "[" + (user.chatCollec[i].name + "] : " + user.chatCollec[i].text + "\n")
       }
       if (user.chatCollec.length > 0)
-        result += user.chatCollec[0].name + "has used " + user.num_improper + " bad words. If you use " + (6 - user.num_improper) + " more bad words, you will be banned!"
+        result += user.chatCollec[0].name + " has used " + user.num_improper + " bad words. If she/he uses " + (6 - user.num_improper) + " more bad words, she/he will be banned!"
       return result
     },
     answerSurvey: async (_, { input }, ctx) => {
@@ -111,7 +111,7 @@ export const graphqlRoot: Resolvers<Context> = {
     },
     findBadWord: async (_, { chatStr }, ctx) => {
       const total = await (BadWordPattern.find())
-      var save_BW = "NA"
+      let save_BW = "NA"
       for (let i = 0; i < total.length; i++) {
         const temp = chatStr.toLowerCase()
         if (temp.includes(total[i].pattern)) {
@@ -134,8 +134,8 @@ export const graphqlRoot: Resolvers<Context> = {
       if (findUser.num_improper > 5) {
         findUser.online_status = false
         await findUser.save()
-        var ret_str = "You are banned because you used : "
-        for (var i = 0; i < findUser.usedBadWords.length; i++) {
+        let ret_str = "You are banned because you used : "
+        for (let i = 0; i < findUser.usedBadWords.length; i++) {
           ret_str = ret_str + findUser.usedBadWords[i].pattern.toString() + "(" + findUser.usedBadWords[i].name.toString() + ") "
         }
         return ret_str
