@@ -49,22 +49,27 @@ export function Demo() {
     ))}
   </ol>)
 
-  function doUpdateUserBadWordCount(username: string) {
+  function doUpdateUserBadWordCount(username: string, save_BW: string) {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    UpdateUserBadWordCount(username).then(function (resp) {
-      console.log(resp.data.updateUserBadWordCount)
-      if (!resp.data.updateUserBadWordCount)
+    UpdateUserBadWordCount(username, save_BW).then(function (resp) {
+      console.log("AM I here?")
+      if (resp.data.updateUserBadWordCount != 'NA') {
+        window.alert(resp.data.updateUserBadWordCount) // reason of why you are removed by popping up
         toast("You are removed!!!!!!!!")
+      }
+
+
     })
   }
 
   function badWordDetection(chatStr: string) {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getBadWordPattern(chatStr).then(function (resp) {
-      console.log(resp.data.findBadWord)
-      if (resp.data.findBadWord) {
+      console.log("TEST : ", resp.data.findBadWord)
+      if (resp.data.findBadWord != "NA") {
         toast("You cannot use bad word!!!!!!!!")
-        doUpdateUserBadWordCount(user === null ? "" : user.name)
+        console.log("You cannot use bad word!!!!!!!!")
+        doUpdateUserBadWordCount(user === null ? "" : user.name, resp.data.findBadWord)
         //user.num_improper = user.num_improper + 1
       }
     })
@@ -157,8 +162,7 @@ export function Demo() {
     // helper()
     //times =1
     badWordDetection(input.value)
-    // if (badWordDetection(input.value))
-    //   toast("You used a bad word! fuck you")
+
     doUpdateChatHistory(user === null ? "" : user.name, input.value)
     //    newchat.textContent = (user === null ? "" : user.name) + ': ' + input.value + '\n'
     input.value = input.defaultValue

@@ -34,8 +34,8 @@ export interface Mutation {
   answerSurvey: Scalars['Boolean']
   nextSurveyQuestion?: Maybe<Survey>
   updateChatHistory: Scalars['Boolean']
-  findBadWord: Scalars['Boolean']
-  updateUserBadWordCount: Scalars['Boolean']
+  findBadWord: Scalars['String']
+  updateUserBadWordCount: Scalars['String']
 }
 
 export interface MutationAnswerSurveyArgs {
@@ -57,6 +57,7 @@ export interface MutationFindBadWordArgs {
 
 export interface MutationUpdateUserBadWordCountArgs {
   username: Scalars['String']
+  save_BW: Scalars['String']
 }
 
 export interface Subscription {
@@ -76,7 +77,8 @@ export interface User {
   email: Scalars['String']
   name: Scalars['String']
   num_improper: Scalars['Int']
-  chatCollec: Array<Maybe<Chat>>
+  chatCollec: Array<Chat>
+  usedBadWords: Array<BadWordPattern>
 }
 
 export enum UserType {
@@ -288,16 +290,16 @@ export type MutationResolvers<
       RequireFields<MutationUpdateChatHistoryArgs, 'name' | 'text'>
     >
     findBadWord?: Resolver<
-      ResolversTypes['Boolean'],
+      ResolversTypes['String'],
       ParentType,
       ContextType,
       RequireFields<MutationFindBadWordArgs, 'chatStr'>
     >
     updateUserBadWordCount?: Resolver<
-      ResolversTypes['Boolean'],
+      ResolversTypes['String'],
       ParentType,
       ContextType,
-      RequireFields<MutationUpdateUserBadWordCountArgs, 'username'>
+      RequireFields<MutationUpdateUserBadWordCountArgs, 'username' | 'save_BW'>
     >
   }
 
@@ -325,6 +327,7 @@ export type UserResolvers<
     name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     num_improper?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
     chatCollec?: Resolver<Array<ResolversTypes['Chat']>, ParentType, ContextType>
+    usedBadWords?: Resolver<Array<ResolversTypes['BadWordPattern']>, ParentType, ContextType>
     __isTypeOf?: IsTypeOfResolverFn<ParentType>
   }
 
