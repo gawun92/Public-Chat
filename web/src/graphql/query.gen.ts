@@ -305,6 +305,23 @@ export interface NextSurveyQuestionVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: IndiChat
+// ====================================================
+
+export interface IndiChat {
+  IndiChat: string;
+}
+
+export interface IndiChatVariables {
+  name: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: updateUserBadWordCount
 // ====================================================
 

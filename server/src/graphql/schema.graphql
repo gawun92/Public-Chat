@@ -40,7 +40,7 @@ type Mutation {
 
   updateUserBadWordCount (username: String!): Boolean!
 
-  IndiChat (name: String!): User!
+  IndiChat (name: String!): String!
 }
 
 type Subscription {
@@ -54,7 +54,7 @@ type User {
   email: String!
   name: String!
   num_improper: Int!
-  chatCollec: [Chat!]!
+  chatCollec: [Chat]!
 }
 
 enum UserType { ADMIN, USER }

@@ -54,10 +54,16 @@ export const graphqlRoot: Resolvers<Context> = {
   Mutation: {
     IndiChat: async (_, { name }, ctx) => {
       const user = check(await User.findOne({ where: { name: name }, relations: ['chatCollec'] }))
-      console.log(user)
-      console.log(user.chatCollec)
 
-      return user
+      let result = ""
+      let i = 0
+      for (; i < user.chatCollec.length!; i++)
+      {
+          result += "[" + (user.chatCollec[i].name + "] : " + user.chatCollec[i].text + "\n")
+      }
+      if (user.chatCollec.length > 0)
+        result += user.chatCollec[0].name + "has used " + user.num_improper + " bad words. If you use " + (6 - user.num_improper) + " more bad words, you will be banned!"
+      return result
     },
     answerSurvey: async (_, { input }, ctx) => {
       const { answer, questionId } = input

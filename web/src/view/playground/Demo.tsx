@@ -54,18 +54,17 @@ export function Demo() {
 
 function loadchat(name: string)
 {
-  toast("test")
   IndiChat(name).then(function (resp) {
-    if (resp.data.IndiChat.chatCollec.length == 0)
+    if (resp.data.IndiChat.length == 0)
     {
-      console.log("shitttt")
+      window.alert("This user hasn't typed anything")
+
     }
     else{
-      console.log("no shit")
+      window.alert(resp.data.IndiChat)
     }
 
   })
-  console.log("ewwww")
 }
 
 
@@ -79,13 +78,11 @@ const allusers = getusers()
   }
 
   const users = allusers.user
-  console.log(allusers.user[0].name)
   const items = (<ol>
     {users.map(user => (
       <EmojiButton onClick={() => loadchat(user.name)} key={Math.random()}>{user.name}</EmojiButton>
     ))}
   </ol>)
-
 
   function doUpdateUserBadWordCount(username: string) {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -180,6 +177,7 @@ const allusers = getusers()
 
         <label></label>
         <InnerFrame><th id="textView" align="left"></th></InnerFrame>
+        <label>Send an emoji!</label>
         <ButtonFrame>
           <div className="btn-toolbar">
             {emojis}
@@ -197,8 +195,15 @@ const allusers = getusers()
           </td>
 
         </tr>
-        <tr></tr>
+
+        <br></br>
+        <br></br>
+        <H2>Check out the Chat History of individual users:</H2>
+        <HistoryFrame>
         {items}
+        </HistoryFrame>
+
+
       </OuterFrame>
 
     </div>
@@ -210,7 +215,7 @@ const OuterFrame = style('div', 'mb4 w-100 ba b--mid-gray br2 pa3 tc', {
   borderColor: '#8491ad',
   borderLeftWidth: '20px',
   borderRightWidth: '20px',
-  height: '600px',
+  height: '800px',
   width: '1000px',
 })
 
@@ -219,6 +224,21 @@ const InnerFrame = style('div', 'mb4 w-100 ba b--mid-gray br2 pa3 tc', {
   borderTopWidth: '20px',
   borderBottomWidth: '20px',
   height: '300px',
+  width: '930px',
+  overflowWrap: 'anywhere',
+  overflowY: 'auto',
+
+  //only 'bad' thing about this is the messages come out from the bottom first
+  display: 'flex',
+  flexDirection: 'column-reverse',
+
+})
+
+const HistoryFrame = style('div', 'mb4 w-100 ba b--mid-gray br2 pa3 tc', {
+  borderColor: '#8491ad',
+  borderTopWidth: '20px',
+  borderBottomWidth: '20px',
+  height: '100px',
   width: '930px',
   overflowWrap: 'anywhere',
   overflowY: 'auto',

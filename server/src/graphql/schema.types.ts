@@ -1,4 +1,3 @@
-import { HyperParameterTuningJobStrategyType } from 'aws-sdk/clients/sagemaker'
 import { GraphQLResolveInfo } from 'graphql'
 export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
@@ -37,7 +36,7 @@ export interface Mutation {
   updateChatHistory: Scalars['Boolean']
   findBadWord: Scalars['Boolean']
   updateUserBadWordCount: Scalars['Boolean']
-  IndiChat: User
+  IndiChat: Scalars['String']
 }
 
 export interface MutationAnswerSurveyArgs {
@@ -82,7 +81,7 @@ export interface User {
   email: Scalars['String']
   name: Scalars['String']
   num_improper: Scalars['Int']
-  chatCollec: Array<Chat>
+  chatCollec: Array<Maybe<Chat>>
 }
 
 export enum UserType {
@@ -305,7 +304,7 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationUpdateUserBadWordCountArgs, 'username'>
   >
-  IndiChat?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationIndiChatArgs, 'name'>>
+  IndiChat?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationIndiChatArgs, 'name'>>
 }
 
 export type SubscriptionResolvers<
@@ -331,7 +330,7 @@ export type UserResolvers<
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   num_improper?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  chatCollec?: Resolver<Array<ResolversTypes['Chat']>, ParentType, ContextType>
+  chatCollec?: Resolver<Array<Maybe<ResolversTypes['Chat']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType>
 }
 
@@ -387,7 +386,7 @@ export type BadWordPatternResolvers<
 > = {
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   pattern?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<HyperParameterTuningJobStrategyType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>
 }
 
 export type ImagesResolvers<
