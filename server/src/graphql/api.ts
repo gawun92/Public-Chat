@@ -74,12 +74,19 @@ export const graphqlRoot: Resolvers<Context> = {
     },
     updateChatHistory: async (_, { name, text }, ctx) => {
       const newChat = new Chat()
-      const findUser = check(await User.findOne({ where: { name: name } }))
+      const findUser = check(await User.findOne({ where: { name: name }, relations: ['chatCollec'] }))
+
       if (findUser.online_status) {
+
         newChat.name = name
         newChat.text = text
         await newChat.save()
+
         ctx.pubsub.publish(CHAT_UPDATE, newChat)
+
+        findUser.chatCollec.push(newChat)
+        await findUser.save()
+        console.log(findUser.chatCollec)
         return true
       }
       return false

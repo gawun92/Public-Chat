@@ -29,6 +29,7 @@ export interface FetchUserContext {
 
 export interface FetchChat_chat {
   __typename: "Chat";
+  id: number;
   name: string;
   text: string;
 }
@@ -48,6 +49,7 @@ export interface FetchChat {
 
 export interface ChatSubscription_chatUpdates {
   __typename: "Chat";
+  id: number;
   name: string;
   text: string;
 }
@@ -194,6 +196,24 @@ export interface FetchSurveyVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: FetchUser
+// ====================================================
+
+export interface FetchUser_user {
+  __typename: "User";
+  name: string;
+}
+
+export interface FetchUser {
+  user: FetchUser_user[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: findBadWord
 // ====================================================
 
@@ -285,11 +305,29 @@ export interface NextSurveyQuestionVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: updateUserBadWordCount
+// ====================================================
+
+export interface updateUserBadWordCount {
+  updateUserBadWordCount: boolean;
+}
+
+export interface updateUserBadWordCountVariables {
+  username: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: Chat
 // ====================================================
 
 export interface Chat {
   __typename: "Chat";
+  id: number;
   name: string;
   text: string;
 }
@@ -360,6 +398,20 @@ export interface SurveyQuestion {
   prompt: string;
   choices: string[] | null;
   answers: SurveyQuestion_answers[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: User
+// ====================================================
+
+export interface User {
+  __typename: "User";
+  name: string;
 }
 
 /* tslint:disable */

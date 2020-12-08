@@ -52,6 +52,7 @@ type User {
   email: String!
   name: String!
   num_improper: Int!
+  chatCollec: [Chat!]!
 }
 
 enum UserType { ADMIN, USER }
@@ -106,6 +107,7 @@ type Chat {
   id: Int!
   name: String!
   text: String!
+  currUser: User!
 }
 
 type BadWordPattern {
