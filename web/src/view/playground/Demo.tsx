@@ -3,7 +3,7 @@
 import { useQuery, useSubscription } from '@apollo/client'
 import * as React from 'react'
 import { useContext, useState } from 'react'
-import { ChatSubscription, FetchChat, FetchImages } from '../../graphql/query.gen'
+import { ChatSubscription, FetchChat, FetchImages, FetchUser } from '../../graphql/query.gen'
 import { Button } from '../../style/button'
 import { H1, H2 } from '../../style/header'
 import { Input } from '../../style/input'
@@ -13,13 +13,16 @@ import { handleError } from '../toast/error'
 import { toast } from '../toast/toast'
 import { fetchChat, subscribeChat } from './fetchChat'
 import { fetchImages } from './fetchImages'
+import { fetchUser } from './fetchUser'
 import { getBadWordPattern } from './mutateBadWordPattern'
 import { UpdateChatHistory } from './mutateChat'
+import { IndiChat } from './mutateTest'
 import { UpdateUserBadWordCount } from './mutateUser'
 
 
 export function Demo() {
   const { user } = useContext(UserContext)
+
   const { loading, data } = useQuery<FetchChat>(fetchChat)
   const sub = useSubscription<ChatSubscription>(subscribeChat)
   const initchatlength = data?.chat?.length
@@ -33,12 +36,12 @@ export function Demo() {
     return <div>no chats</div>
   }
 
-  function test() {
+  function getimages() {
     const { data } = useQuery<FetchImages>(fetchImages)
     return data
   }
 
-  const imagedata = test()
+  const imagedata = getimages()
   if (!imagedata || imagedata.images.length === 0) {
     return <div>no images</div>
   }
@@ -48,6 +51,41 @@ export function Demo() {
       <EmojiButton onClick={() => printemoji(image.data)} key={Math.random()}>{image.data}</EmojiButton>
     ))}
   </ol>)
+
+function loadchat(name: string)
+{
+  toast("test")
+  IndiChat(name).then(function (resp) {
+    if (resp.data.IndiChat.chatCollec.length == 0)
+    {
+      console.log("shitttt")
+    }
+    else{
+      console.log("no shit")
+    }
+
+  })
+  console.log("ewwww")
+}
+
+
+function getusers() {
+  const { data } = useQuery<FetchUser>(fetchUser)
+  return data
+}
+const allusers = getusers()
+  if (!allusers || allusers.user.length === 0) {
+    return <div>no users</div>
+  }
+
+  const users = allusers.user
+  console.log(allusers.user[0].name)
+  const items = (<ol>
+    {users.map(user => (
+      <EmojiButton onClick={() => loadchat(user.name)} key={Math.random()}>{user.name}</EmojiButton>
+    ))}
+  </ol>)
+
 
   function doUpdateUserBadWordCount(username: string) {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -70,14 +108,6 @@ export function Demo() {
     })
   }
 
-  // function helper() {
-  //   const input = (document.getElementById('input_text') as HTMLInputElement).value
-  //   void fetch('/playground/demo', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ input }),
-  //   })
-  // }
 
   function enter(target: any) {
     if (target.charCode === 13) {
@@ -120,31 +150,6 @@ export function Demo() {
     }
   }, [sub.data])
 
-
-
-  //  React.useEffect(() => {
-  //    clearChatHistory()
-  //    initialChatHistory(0, initchatlength!)
-  //  }, [data])
-
-  //  function initialChatHistory(start: number, end: number) {
-  //    if (initchatflag == false) {
-  //      for (let i = start; i < end; i++) {
-  //        const chats = document.getElementById('textView')
-  //       const newchat = document.createElement('tr')
-  //        newchat.textContent = data?.chat[i].name + ': ' + data?.chat[i].text + '\n'
-  ///        chats?.appendChild(newchat)
-  //      }
-  //      initchatflag = true
-  //   }
-  // }
-
-  //  function clearChatHistory() {
-  //    const chats = document.getElementById('textView')
-  //    while (chats?.firstChild) {
-  //      chats.removeChild(chats.firstChild);
-  //    }
-  //  }
 
   function doUpdateChatHistory(name: string, text: string) {
     UpdateChatHistory(name, text).catch(handleError)
@@ -192,12 +197,8 @@ export function Demo() {
           </td>
 
         </tr>
-        <select>
-          <option>user1</option>
-          <option>user2</option>
-          <option>user3</option>
-        </select>
-        <Button>see history</Button>
+        <tr></tr>
+        {items}
       </OuterFrame>
 
     </div>
@@ -253,4 +254,3 @@ const EmojiButton = style('div', 'hover-bg-black-10', {
   display: 'inline-block',
   cssFloat: 'left',
 })
-

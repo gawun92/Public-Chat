@@ -39,6 +39,8 @@ type Mutation {
   findBadWord (chatStr: String!): Boolean!
 
   updateUserBadWordCount (username: String!): Boolean!
+
+  IndiChat (name: String!): User!
 }
 
 type Subscription {

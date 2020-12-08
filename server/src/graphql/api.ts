@@ -46,8 +46,19 @@ export const graphqlRoot: Resolvers<Context> = {
       const cuteimages = await Images.find()
       return cuteimages
     },
+    user: async () => {
+      const users = await User.find()
+      return users
+    },
   },
   Mutation: {
+    IndiChat: async (_, { name }, ctx) => {
+      const user = check(await User.findOne({ where: { name: name }, relations: ['chatCollec'] }))
+      console.log(user)
+      console.log(user.chatCollec)
+
+      return user
+    },
     answerSurvey: async (_, { input }, ctx) => {
       const { answer, questionId } = input
       const question = check(await SurveyQuestion.findOne({ where: { id: questionId }, relations: ['survey'] }))
