@@ -91,7 +91,7 @@ export const graphqlRoot: Resolvers<Context> = {
     },
     updateChatHistory: async (_, { name, text }, ctx) => {
       const newChat = new Chat()
-      const findUser = check(await User.findOne({ where: { name: name }, relations: ['chatCollec'] }))
+      const findUser = check(await User.findOne({ where: { name: name } }))
 
       if (findUser.online_status) {
 
@@ -101,33 +101,48 @@ export const graphqlRoot: Resolvers<Context> = {
 
         ctx.pubsub.publish(CHAT_UPDATE, newChat)
 
-        findUser.chatCollec.push(newChat)
-        await findUser.save()
-        console.log(findUser.chatCollec)
+        const findUser1 = check(await User.findOne({ where: { name: name }, relations: ['chatCollec'] }))
+        findUser1.chatCollec.push(newChat)
+        await findUser1.save()
+        console.log(findUser1.chatCollec)
         return true
       }
       return false
     },
     findBadWord: async (_, { chatStr }, ctx) => {
       const total = await (BadWordPattern.find())
+      var save_BW = "NA"
       for (let i = 0; i < total.length; i++) {
         const temp = chatStr.toLowerCase()
-        if (temp.includes(total[i].pattern))
-          return true
+        if (temp.includes(total[i].pattern)) {
+          save_BW = total[i].pattern
+          return save_BW
+        }
       }
-      return false
+      return "NA"
     },
-    updateUserBadWordCount: async (_, { username }, ctx) => {
-      const findUser = check(await User.findOne({ where: { name: username } }))
-      findUser.num_improper = findUser?.num_improper + 1 //////how to add one
+    // needs to count up. Because the duplicate rows are not pushed and considered as one element
+    updateUserBadWordCount: async (_, { username, save_BW }, ctx) => {
+
+      const findUser = check(await User.findOne({ where: { name: username }, relations: ['usedBadWords'] }))
+      const badWordObject = check(await BadWordPattern.findOne({ where: { pattern: save_BW } }))
+      findUser.num_improper = findUser.num_improper + 1
+
+      findUser.usedBadWords.push(badWordObject)
+      await findUser.save()
+
       if (findUser.num_improper > 5) {
         findUser.online_status = false
-        await findUser?.save()
-        return false
+        await findUser.save()
+        var ret_str = "You are banned because you used : "
+        for (var i = 0; i < findUser.usedBadWords.length; i++) {
+          ret_str = ret_str + findUser.usedBadWords[i].pattern.toString() + "(" + findUser.usedBadWords[i].name.toString() + ") "
+        }
+        return ret_str
       }
-      await findUser?.save()
-      //ctx.pubsub.publish(findUser.name + 'User Bad Word_' + findUser.num_improper)
-      return true
+      console.log(findUser.usedBadWords)
+
+      return 'NA'
     }
   },
   Subscription: {

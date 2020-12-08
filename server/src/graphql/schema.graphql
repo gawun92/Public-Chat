@@ -36,11 +36,12 @@ type Mutation {
   nextSurveyQuestion (surveyId: Int!): Survey
 
   updateChatHistory (name: String!, text:String!): Boolean!
-  findBadWord (chatStr: String!): Boolean!
-
-  updateUserBadWordCount (username: String!): Boolean!
+  findBadWord (chatStr: String!): String!
 
   IndiChat (name: String!): String!
+
+  updateUserBadWordCount (username: String!, save_BW: String!): String!
+
 }
 
 type Subscription {
@@ -55,6 +56,7 @@ type User {
   name: String!
   num_improper: Int!
   chatCollec: [Chat]!
+  usedBadWords: [BadWordPattern!]!
 }
 
 enum UserType { ADMIN, USER }

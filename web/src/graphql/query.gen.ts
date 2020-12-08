@@ -218,7 +218,7 @@ export interface FetchUser {
 // ====================================================
 
 export interface findBadWord {
-  findBadWord: boolean;
+  findBadWord: string;
 }
 
 export interface findBadWordVariables {
@@ -331,6 +331,7 @@ export interface updateUserBadWordCount {
 
 export interface updateUserBadWordCountVariables {
   username: string;
+  used_BW: string;
 }
 
 /* tslint:disable */
