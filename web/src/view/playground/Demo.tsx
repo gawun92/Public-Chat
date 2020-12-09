@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable prettier/prettier */
-import { useQuery, useSubscription } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import * as React from 'react'
-import { useContext, useState } from 'react'
-import { ChatSubscription, FetchChat, FetchImages, FetchUser } from '../../graphql/query.gen'
+import { useContext } from 'react'
+import { FetchChat, FetchImages, FetchUser } from '../../graphql/query.gen'
 import { Button } from '../../style/button'
 import { H1, H2 } from '../../style/header'
 import { Input } from '../../style/input'
@@ -11,7 +11,7 @@ import { style } from '../../style/styled'
 import { UserContext } from '../auth/user'
 import { handleError } from '../toast/error'
 import { toast } from '../toast/toast'
-import { fetchChat, subscribeChat } from './fetchChat'
+import { fetchChat } from './fetchChat'
 import { fetchImages } from './fetchImages'
 import { fetchUser } from './fetchUser'
 import { getBadWordPattern } from './mutateBadWordPattern'
@@ -23,10 +23,10 @@ import { UpdateUserBadWordCount } from './mutateUser'
 export function Demo() {
   const { user } = useContext(UserContext)
 
-  const { loading, data } = useQuery<FetchChat>(fetchChat)
-  const sub = useSubscription<ChatSubscription>(subscribeChat)
+  const { loading, data } = useQuery<FetchChat>(fetchChat, {pollInterval:2000})
+//  const sub = useSubscription<ChatSubscription>(subscribeChat)
+//  const [status, setStatus] = useState(false)
   const initchatlength = data?.chat?.length
-  const [status, setStatus] = useState(false)
 
   if (loading) {
     return <div>loading...</div>
@@ -52,8 +52,8 @@ export function Demo() {
     ))}
   </ol>)
 
-function loadchat(name: string)
-{
+  function loadchat(name: string)
+  {
   IndiChat(name).then(function (resp) {
     if (resp.data.IndiChat.length == 0)
     {
@@ -67,12 +67,12 @@ function loadchat(name: string)
   })
 }
 
-
-function getusers() {
+  function getusers() {
   const { data } = useQuery<FetchUser>(fetchUser)
   return data
 }
-const allusers = getusers()
+
+  const allusers = getusers()
   if (!allusers || allusers.user.length === 0) {
     return <div>no users</div>
   }
@@ -111,7 +111,6 @@ const allusers = getusers()
     })
   }
 
-
   function enter(target: any) {
     if (target.charCode === 13) {
       document.getElementById("insert_text")?.click()
@@ -119,57 +118,49 @@ const allusers = getusers()
   }
 
   function printemoji(emoji: string) {
-    //  const chats = document.getElementById('textView')
-    //  const newchat = document.createElement('tr')
+//    const chats = document.getElementById('textView')
+    const newchat = document.createElement('tr')
     doUpdateChatHistory(user === null ? "" : user.name, emoji)
-    // newchat.textContent = (user === null ? "" : user.name) + ': ' + emoji + '\n'
-    // chats?.appendChild(newchat)
+    newchat.textContent = (user === null ? "" : user.name) + ': ' + emoji + '\n'
   }
 
 
   React.useEffect(() => {
-    if (!status) {
-      setStatus(true)
-      for (let i = 0; i < initchatlength!; i++) {
+    clearChatHistory()
+    initialChatHistory(0, initchatlength!)
+  }, [data]);
+
+
+  function clearChatHistory() {
+    const chats = document.getElementById('textView')
+    while (chats?.firstChild) {
+      chats.removeChild(chats.firstChild);
+    }
+  }
+
+  function initialChatHistory(start: number, end:number) {
+      for (let i = start; i < end; i++) {
         const chats = document.getElementById('textView')
         const newchat = document.createElement('tr')
         newchat.textContent = data?.chat[i].name + ': ' + data?.chat[i].text + '\n'
         chats?.appendChild(newchat)
-      }
     }
-  });
-
-  React.useEffect(() => {
-    if (sub.data?.chatUpdates) {
-      toast('Message from ' + sub.data?.chatUpdates.name + ' has been sent! ouo')
-      const chats = document.getElementById('textView')
-      const newchat = document.createElement('tr')
-      newchat.textContent = sub.data?.chatUpdates.name + ': ' + sub.data?.chatUpdates.text + '\n'
-      chats?.appendChild(newchat)
-      //      console.log(chats)
-      //      console.log(data?.chat)
-      //      console.log(sub.data?.chatUpdates?.name)
-      //      console.log(sub.data?.chatUpdates?.text)
-    }
-  }, [sub.data])
-
+  }
 
   function doUpdateChatHistory(name: string, text: string) {
     UpdateChatHistory(name, text).catch(handleError)
   }
 
   function temp() {
-    //    const chats = document.getElementById('textView')
-    //    const newchat = document.createElement('tr')
+    clearChatHistory()
+    initialChatHistory(0, initchatlength!)
+  //  const chats = document.getElementById('textView')
+    const newchat = document.createElement('tr')
     const input = (document.getElementById('input_text') as HTMLInputElement)
-    // helper()
-    //times =1
     badWordDetection(input.value)
-
     doUpdateChatHistory(user === null ? "" : user.name, input.value)
-    //    newchat.textContent = (user === null ? "" : user.name) + ': ' + input.value + '\n'
+    newchat.textContent = (user === null ? "" : user.name) + ': ' + input.value + '\n'
     input.value = input.defaultValue
-    //    chats?.appendChild(newchat)
   }
 
   return (
