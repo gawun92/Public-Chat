@@ -1,6 +1,8 @@
 import { GraphQLResolveInfo } from 'graphql'
 export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> }
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> }
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } &
   { [P in K]-?: NonNullable<T[P]> }
 /** All built-in and custom scalars, mapped to their actual values */
@@ -32,8 +34,10 @@ export interface Mutation {
   answerSurvey: Scalars['Boolean']
   nextSurveyQuestion?: Maybe<Survey>
   updateChatHistory: Scalars['Boolean']
-  findBadWord: Scalars['Boolean']
-  updateUserBadWordCount: Scalars['Boolean']
+  findBadWord: Scalars['String']
+  updateUserBadWordCount: Scalars['String']
+  IndiChat: Scalars['String']
+
 }
 
 export interface MutationAnswerSurveyArgs {
@@ -52,8 +56,14 @@ export interface MutationUpdateChatHistoryArgs {
 export interface MutationFindBadWordArgs {
   chatStr: Scalars['String']
 }
+
 export interface MutationUpdateUserBadWordCountArgs {
   username: Scalars['String']
+  save_BW: Scalars['String']
+}
+
+export interface MutationIndiChatArgs {
+  name: Scalars['String']
 }
 
 export interface Subscription {
@@ -65,6 +75,7 @@ export interface Subscription {
 export interface SubscriptionSurveyUpdatesArgs {
   surveyId: Scalars['Int']
 }
+
 export interface User {
   __typename?: 'User'
   id: Scalars['Int']
@@ -72,6 +83,8 @@ export interface User {
   email: Scalars['String']
   name: Scalars['String']
   num_improper: Scalars['Int']
+  chatCollec: Array<Chat>
+  usedBadWords: Array<BadWordPattern>
 }
 
 export enum UserType {
@@ -115,6 +128,7 @@ export interface Chat {
   id: Scalars['Int']
   name: Scalars['String']
   text: Scalars['String']
+  currUser: User
 }
 
 export interface BadWordPattern {
@@ -246,7 +260,6 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
   self?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
-  ouo?: Resolver<Maybe<ResolversTypes['Chat']>, ParentType, ContextType>
   surveys?: Resolver<Array<ResolversTypes['Survey']>, ParentType, ContextType>
   survey?: Resolver<
     Maybe<ResolversTypes['Survey']>,
@@ -257,44 +270,46 @@ export type QueryResolvers<
   chat?: Resolver<Array<ResolversTypes['Chat']>, ParentType, ContextType>
   badwordpattern?: Resolver<Array<ResolversTypes['BadWordPattern']>, ParentType, ContextType>
   images?: Resolver<Array<ResolversTypes['Images']>, ParentType, ContextType>
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
+  user?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>
 }
 
 export type MutationResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
-> = {
-  answerSurvey?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationAnswerSurveyArgs, 'input'>
-  >
-  nextSurveyQuestion?: Resolver<
-    Maybe<ResolversTypes['Survey']>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationNextSurveyQuestionArgs, 'surveyId'>
-  >
-  updateChatHistory?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationUpdateChatHistoryArgs, 'name' | 'text'>
-  >
-  findBadWord?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationFindBadWordArgs, 'chatStr'>
-  >
-  updateUserBadWordCount?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationUpdateUserBadWordCountArgs, 'username'>
-  >
-}
+  > = {
+    answerSurvey?: Resolver<
+      ResolversTypes['Boolean'],
+      ParentType,
+      ContextType,
+      RequireFields<MutationAnswerSurveyArgs, 'input'>
+    >
+    nextSurveyQuestion?: Resolver<
+      Maybe<ResolversTypes['Survey']>,
+      ParentType,
+      ContextType,
+      RequireFields<MutationNextSurveyQuestionArgs, 'surveyId'>
+    >
+    updateChatHistory?: Resolver<
+      ResolversTypes['Boolean'],
+      ParentType,
+      ContextType,
+      RequireFields<MutationUpdateChatHistoryArgs, 'name' | 'text'>
+    >
+    findBadWord?: Resolver<
+      ResolversTypes['String'],
+      ParentType,
+      ContextType,
+      RequireFields<MutationFindBadWordArgs, 'chatStr'>
+    >
+    updateUserBadWordCount?: Resolver<
+      ResolversTypes['String'],
+      ParentType,
+      ContextType,
+      RequireFields<MutationUpdateUserBadWordCountArgs, 'username' | 'save_BW'>
+    >
+    IndiChat?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationIndiChatArgs, 'name'>>
+  }
+
 
 export type SubscriptionResolvers<
   ContextType = any,
@@ -313,14 +328,18 @@ export type SubscriptionResolvers<
 export type UserResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
+
 > = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   userType?: Resolver<ResolversTypes['UserType'], ParentType, ContextType>
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   num_improper?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  chatCollec?: Resolver<Array<Maybe<ResolversTypes['Chat']>>, ParentType, ContextType>
+  usedBadWords?: Resolver<Array<ResolversTypes['BadWordPattern']>, ParentType, ContextType>                  
   __isTypeOf?: IsTypeOfResolverFn<ParentType>
 }
+
 
 export type SurveyResolvers<
   ContextType = any,
@@ -364,6 +383,7 @@ export type ChatResolvers<
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  currUser?: Resolver<ResolversTypes['User'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType>
 }
 
