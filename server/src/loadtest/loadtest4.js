@@ -8,10 +8,11 @@ export const options = {
       startRate: 50,
       timeUnit: '1s',
       preAllocatedVUs: 50,
-      maxVUs: 1000,
+      maxVUs: 2000,
       stages: [
-        { duration: '50s', target: 100 },
-        { duration: '50s', target: 100 },
+        { duration: '50s', target: 1 },
+        { duration: '50s', target: 10 },
+        { duration: '50s', target: 50 },
       ],
     },
   },
@@ -38,16 +39,9 @@ export function setup() {
 
 
 export default function (data) {
-  const payload = JSON.stringify({
-
-    operationName: 'updateChatHistory',
-    variables: {
-      name: "Yingge",
-      text: "345"
-    },
-    query:
-      'mutation updateChatHistory($name: String!, $text: String!)  {\\n updateChatHistory(name: $name, text: $text)\\n}\\n"}'
-  })
+  const payload = JSON.stringify(
+    {"operationName":"updateChatHistory","variables":{"name":"Yingge","text":"123"},"query":"mutation updateChatHistory($name: String!, $text: String!) {\n  updateChatHistory(name: $name, text: $text)\n}\n"}
+  )
   const params = {
     headers: {
       'Content-Type': 'application/json',
@@ -57,4 +51,5 @@ export default function (data) {
     },
   }
   http.post('http://localhost:3005/graphql', payload, params)
+
 }

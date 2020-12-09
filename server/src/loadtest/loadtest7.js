@@ -38,16 +38,9 @@ export function setup() {
 
 
 export default function (data) {
-  const payload = JSON.stringify({
-
-    operationName: 'IndiChat',
-    variables: {
-      name: "Yingge",
-      text: "345"
-    },
-    query:
-      'mutation IndiChat($name: String!)  {\\n IndiChat($name: String)\\n}\\n"}'
-  })
+  const payload = JSON.stringify(
+    {"operationName":"IndiChat","variables":{"name":"Guest7"},"query":"mutation IndiChat($name: String!) {\n  IndiChat(name: $name)\n}\n"}
+  )
   const params = {
     headers: {
       'Content-Type': 'application/json',

@@ -1,6 +1,19 @@
 /* eslint-disable prettier/prettier */
 import http from 'k6/http'
-
+/*
+export const options = {
+  scenarios: {
+    standard: {
+      executor: 'ramping-vus',
+      startVUs: 0,
+      stages: [
+        { duration: '50s', target: 100 },
+        { duration: '50s', target: 100 },
+      ],
+      gracefulRampDown: '10s',
+    },
+  },
+}*/
 export const options = {
   scenarios: {
     standard: {

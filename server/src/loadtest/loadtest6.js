@@ -38,16 +38,9 @@ export function setup() {
 
 
 export default function (data) {
-  const payload = JSON.stringify({
-
-    operationName: 'updateUserBadWordCount',
-    variables: {
-      name: "Yingge",
-      text: "345"
-    },
-    query:
-      'mutation updateUserBadWordCount($username: String!, $save_BW: String!)  {\\n updateUserBadWordCount($username: String, $save_BW: String)\\n}\\n"}'
-  })
+  const payload = JSON.stringify(
+    {"operationName":"updateUserBadWordCount","variables":{"username":"Yingge","save_BW":"fuck"},"query":"mutation updateUserBadWordCount($username: String!, $save_BW: String!) {\n  updateUserBadWordCount(username: $username, save_BW: $save_BW)\n}\n"}
+  )
   const params = {
     headers: {
       'Content-Type': 'application/json',

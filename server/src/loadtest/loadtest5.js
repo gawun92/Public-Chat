@@ -38,16 +38,9 @@ export function setup() {
 
 
 export default function (data) {
-  const payload = JSON.stringify({
-
-    operationName: 'findBadWord',
-    variables: {
-      name: "Yingge",
-      text: "345"
-    },
-    query:
-      'mutation findBadWord($chatStr: String!)  {\\n findBadWord($chatStr: String)\\n}\\n"}'
-  })
+  const payload = JSON.stringify(
+    {"operationName":"findBadWord","variables":{"chatStr":"fuck"},"query":"mutation findBadWord($chatStr: String!) {\n  findBadWord(chatStr: $chatStr)\n}\n"}
+  )
   const params = {
     headers: {
       'Content-Type': 'application/json',
