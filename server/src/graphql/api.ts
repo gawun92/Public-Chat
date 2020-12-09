@@ -46,8 +46,25 @@ export const graphqlRoot: Resolvers<Context> = {
       const cuteimages = await Images.find()
       return cuteimages
     },
+    user: async () => {
+      const users = await User.find()
+      return users
+    },
   },
   Mutation: {
+    IndiChat: async (_, { name }, ctx) => {
+      const user = check(await User.findOne({ where: { name: name }, relations: ['chatCollec'] }))
+
+      let result = ""
+      let i = 0
+      for (; i < user.chatCollec.length!; i++)
+      {
+          result += "[" + (user.chatCollec[i].name + "] : " + user.chatCollec[i].text + "\n")
+      }
+      if (user.chatCollec.length > 0)
+        result += user.chatCollec[0].name + " has used " + user.num_improper + " bad words. If she/he uses " + (6 - user.num_improper) + " more bad words, she/he will be banned!"
+      return result
+    },
     answerSurvey: async (_, { input }, ctx) => {
       const { answer, questionId } = input
       const question = check(await SurveyQuestion.findOne({ where: { id: questionId }, relations: ['survey'] }))
@@ -94,7 +111,7 @@ export const graphqlRoot: Resolvers<Context> = {
     },
     findBadWord: async (_, { chatStr }, ctx) => {
       const total = await (BadWordPattern.find())
-      var save_BW = "NA"
+      let save_BW = "NA"
       for (let i = 0; i < total.length; i++) {
         const temp = chatStr.toLowerCase()
         if (temp.includes(total[i].pattern)) {
@@ -117,8 +134,8 @@ export const graphqlRoot: Resolvers<Context> = {
       if (findUser.num_improper > 5) {
         findUser.online_status = false
         await findUser.save()
-        var ret_str = "You are banned because you used : "
-        for (var i = 0; i < findUser.usedBadWords.length; i++) {
+        let ret_str = "You are banned because you used : "
+        for (let i = 0; i < findUser.usedBadWords.length; i++) {
           ret_str = ret_str + findUser.usedBadWords[i].pattern.toString() + "(" + findUser.usedBadWords[i].name.toString() + ") "
         }
         return ret_str
