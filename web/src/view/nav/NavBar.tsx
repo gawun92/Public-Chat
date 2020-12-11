@@ -1,34 +1,33 @@
 /* eslint-disable prettier/prettier */
 import { useLocation } from '@reach/router'
 import * as React from 'react'
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { useMediaQuery } from 'react-responsive'
 import { breakpoints } from '../../style/breakpoints'
 import { MenuIcon } from '../../style/icons'
 import { style } from '../../style/styled'
-import { UserContext } from '../auth/user'
 import { addToastListener, removeToastListener, Toast, ToastType } from '../toast/toast'
 import { link } from './Link'
-import { getLoginPath, getPath, getSurveyPath, Route } from './route'
+import { getLoginPath, getPath, Route } from './route'
 
 const title = {
-  name: 'CS188',
+  name: 'Bruin Chat',
   path: getPath(Route.HOME),
   title: true,
 }
 
 const otherTabs = [
+  // {
+  //   name: 'lectures',
+  //   path: getPath(Route.LECTURES),
+  // },
+  // {
+  //   name: 'projects',
+  //   path: getPath(Route.PROJECTS),
+  // },
   {
-    name: 'lectures',
-    path: getPath(Route.LECTURES),
-  },
-  {
-    name: 'projects',
-    path: getPath(Route.PROJECTS),
-  },
-  {
-    name: 'playground',
+    name: 'Link Start!',
     path: getPath(Route.PLAYGROUND),
   },
 ]
@@ -77,7 +76,6 @@ export function NavBar() {
 
           {isSmall && <NavMenu show={showMenu} onClick={() => setShowMenu(!showMenu)} />}
         </Nav>
-        <SubNav />
       </div>
       {toast && <ToastContainer $isError={toast.type === ToastType.ERROR}>{toast.message}</ToastContainer>}
     </>
@@ -91,9 +89,7 @@ function NavMenu(props: { show: boolean; onClick: () => void }) {
       {props.show && (
         <Modal>
           <NavMenuModal>
-            {otherTabs.map((tab, i) => (
-              <NavItem key={i} {...tab} />
-            ))}
+            <NavItem name="Login!" path={getLoginPath()} />
           </NavMenuModal>
         </Modal>
       )}
@@ -101,21 +97,19 @@ function NavMenu(props: { show: boolean; onClick: () => void }) {
   )
 }
 
-function SubNav() {
-  const location = useLocation()
-  const { user } = useContext(UserContext)
-  if (!location.pathname.startsWith(getPath(Route.PLAYGROUND))) {
-    // only playground has subnav
-    return null
-  }
-  return (
-    <Nav $isSubNav>
-      <NavItem name="Feel Lonely? Wanna Chat?" path={getLoginPath()} />
-      <NavItem name="surveys" path={getSurveyPath()} />
-      <NavItem name={user ? 'logout' : 'login'} path={getLoginPath()} />
-    </Nav>
-  )
-}
+// function SubNav() {
+//   const location = useLocation()
+//  // const { user } = useContext(UserContext)
+//   if (!location.pathname.startsWith(getPath(Route.PLAYGROUND))) {
+//     // only playground has subnav
+//     return null
+//   }
+//   return (
+//     <Nav $isSubNav>
+//       <NavItem name="Login!" path={getLoginPath()} />
+//     </Nav>
+//   )
+// }
 
 const Nav = style(
   'nav',

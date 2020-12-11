@@ -4,7 +4,6 @@ import * as React from 'react'
 import { Login } from '../auth/Login'
 import { AppRouteParams, PlaygroundApp } from '../nav/route'
 import { Demo } from '../playground/Demo'
-import { Surveys } from '../playground/Surveys'
 import { Page } from './Page'
 
 
@@ -22,8 +21,6 @@ function getPlaygroundApp(app?: PlaygroundApp) {
   switch (app) {
     case PlaygroundApp.DEMO:
       return <Demo />
-    case PlaygroundApp.SURVEYS:
-      return <Surveys />
     case PlaygroundApp.LOGIN:
       return <Login />
     default:
