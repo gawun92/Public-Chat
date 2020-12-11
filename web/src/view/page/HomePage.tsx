@@ -13,8 +13,8 @@ export function HomePage(props: HomePageProps) {
   return (
     <Page>
       <Hero>
-        <H1>Welcome to our public chat room!</H1>
-        <H3>Scalable Internet Services</H3>
+        <H1>Welcome to the public chat room Bruin Chat!</H1>
+        <H3>CS188 Scalable Internet Services</H3>
         <H3>UCLA, Fall 2020</H3>
       </Hero>
     </Page>

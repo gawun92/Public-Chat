@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 import { useQuery, useSubscription } from '@apollo/client'
 import * as React from 'react'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { ChatSubscription, FetchChat, FetchImages, FetchUser } from '../../graphql/query.gen'
 import { Button } from '../../style/button'
 import { H1, H2 } from '../../style/header'
@@ -19,29 +19,63 @@ import { UpdateChatHistory } from './mutateChat'
 import { IndiChat } from './mutateTest'
 import { UpdateUserBadWordCount } from './mutateUser'
 
-
 export function Demo() {
   const { user } = useContext(UserContext)
-
-  const { loading, data } = useQuery<FetchChat>(fetchChat)
+  //const [status, setStatus] = useState(true)
+  const ovo = useQuery<FetchChat>(fetchChat)
+  const img = useQuery<FetchImages>(fetchImages)
   const sub = useSubscription<ChatSubscription>(subscribeChat)
-  const initchatlength = data?.chat?.length
-  const [status, setStatus] = useState(false)
+  const ouo = useQuery<FetchUser>(fetchUser)
+  //const initchatlength = ovo.data?.chat?.length
 
-  if (loading) {
+  // React.useEffect(() => {
+  //   if (!status) {
+  //     setStatus(false)
+  //       for (let i = -1; i < initchatlength!; i++) {
+  //         const chats = document.getElementById('textView')
+  //         const newchat = document.createElement('tr')
+  //         newchat.textContent = data?.chat[i].name + ': ' + data?.chat[i].text + '\n'
+  //         chats?.appendChild(newchat)
+  //         }
+  //   }
+  // });
+
+  React.useEffect(() => {
+    if (sub.data?.chatUpdates) {
+      toast('Message from ' + sub.data?.chatUpdates.name + ' has been sent! ouo')
+      const chats = document.getElementById('textView')
+      const newchat = document.createElement('tr')
+      newchat.textContent = sub.data?.chatUpdates.name + ': ' + sub.data?.chatUpdates.text + '\n'
+      chats?.appendChild(newchat)
+      //      console.log(chats)
+      //      console.log(data?.chat)
+      //      console.log(sub.data?.chatUpdates?.name)
+      //      console.log(sub.data?.chatUpdates?.text)
+    }
+  }, [sub.data])
+
+
+  if (ovo.loading) {
     return <div>loading...</div>
   }
 
-  if (!data || data.chat.length === 0) {
+  if (!ovo.data ||ovo.data.chat.length === 0) {
     return <div>no chats</div>
   }
+  const check = ovo.data.chat
 
-  function getimages() {
-    const { data } = useQuery<FetchImages>(fetchImages)
-    return data
-  }
+      const chathistory = (<ol>
+        {check.map(chat => (
+          <tr key={Math.random()}>{chat.name}: {chat.text}</tr>
+        ))}
+      </ol>)
 
-  const imagedata = getimages()
+  // function getimages() {
+  //   const { data } = useQuery<FetchImages>(fetchImages)
+  //   return data
+  // }
+
+  const imagedata = img.data
   if (!imagedata || imagedata.images.length === 0) {
     return <div>no images</div>
   }
@@ -68,11 +102,11 @@ function loadchat(name: string)
 }
 
 
-function getusers() {
-  const { data } = useQuery<FetchUser>(fetchUser)
-  return data
-}
-const allusers = getusers()
+// function getusers() {
+//   const { data } = useQuery<FetchUser>(fetchUser)
+//   return data
+// }
+const allusers = ouo.data
   if (!allusers || allusers.user.length === 0) {
     return <div>no users</div>
   }
@@ -93,8 +127,6 @@ const allusers = getusers()
         window.alert(resp.data.updateUserBadWordCount) // reason of why you are removed by popping up
         toast("You are removed!!!!!!!!")
       }
-
-
     })
   }
 
@@ -127,31 +159,40 @@ const allusers = getusers()
   }
 
 
-  React.useEffect(() => {
-    if (!status) {
-      setStatus(true)
-      for (let i = 0; i < initchatlength!; i++) {
-        const chats = document.getElementById('textView')
-        const newchat = document.createElement('tr')
-        newchat.textContent = data?.chat[i].name + ': ' + data?.chat[i].text + '\n'
-        chats?.appendChild(newchat)
-      }
-    }
-  });
+  // React.useEffect(() => {
+  //   if (!status) {
+  //     setStatus(true)
+  //     for (let i = 0; i < initchatlength!; i++) {
+  //       const chats = document.getElementById('textView')
+  //       const newchat = document.createElement('tr')
+  //       newchat.textContent = data?.chat[i].name + ': ' + data?.chat[i].text + '\n'
+  //       chats?.appendChild(newchat)
+  //     }
+  //   }
+  // });
 
-  React.useEffect(() => {
-    if (sub.data?.chatUpdates) {
-      toast('Message from ' + sub.data?.chatUpdates.name + ' has been sent! ouo')
-      const chats = document.getElementById('textView')
-      const newchat = document.createElement('tr')
-      newchat.textContent = sub.data?.chatUpdates.name + ': ' + sub.data?.chatUpdates.text + '\n'
-      chats?.appendChild(newchat)
-      //      console.log(chats)
-      //      console.log(data?.chat)
-      //      console.log(sub.data?.chatUpdates?.name)
-      //      console.log(sub.data?.chatUpdates?.text)
-    }
-  }, [sub.data])
+  // React.useEffect(() => {
+  //   if (!status) {
+  //     setStatus(true)
+  //     for (let i = 0; i < initchatlength!; i++) {
+  //       const chats = document.getElementById('textView')
+  //       const newchat = document.createElement('tr')
+  //       newchat.textContent = data?.chat[i].name + ': ' + data?.chat[i].text + '\n'
+  //       chats?.appendChild(newchat)
+  //     }
+  //   }
+  //   if (sub.data?.chatUpdates) {
+  //     toast('Message from ' + sub.data?.chatUpdates.name + ' has been sent! ouo')
+  //     const chats = document.getElementById('textView')
+  //     const newchat = document.createElement('tr')
+  //     newchat.textContent = sub.data?.chatUpdates.name + ': ' + sub.data?.chatUpdates.text + '\n'
+  //     chats?.appendChild(newchat)
+  //     //      console.log(chats)
+  //     //      console.log(data?.chat)
+  //     //      console.log(sub.data?.chatUpdates?.name)
+  //     //      console.log(sub.data?.chatUpdates?.text)
+  //   }
+  // }, [sub.data])
 
 
   function doUpdateChatHistory(name: string, text: string) {
@@ -181,7 +222,7 @@ const allusers = getusers()
         <H2>Please do not use improper language</H2>
 
         <label></label>
-        <InnerFrame><th id="textView" align="left"></th></InnerFrame>
+  <InnerFrame><th id="textView" align="left">{chathistory}</th></InnerFrame>
         <label>Send an emoji!</label>
         <ButtonFrame>
           <div className="btn-toolbar">
@@ -190,10 +231,10 @@ const allusers = getusers()
         </ButtonFrame>
         <tr>
           <td width="90%">
-            <Input type="text" id="input_text" placeholder="Say hello to all" onKeyPress={enter}></Input>
+            <Input type="text" id="input_text" placeholder="Say hello to all" onKeyPress={ enter }></Input>
           </td>
           <td width="10%">
-            <Button type="submit" id="insert_text" onClick={temp} >
+            <Button type="submit" id="insert_text" onClick={ temp } >
               {' '}
               Enter{' '}
             </Button>
