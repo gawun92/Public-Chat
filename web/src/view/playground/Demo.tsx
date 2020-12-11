@@ -46,7 +46,7 @@ export function Demo() {
       const newchat = document.createElement('tr')
       newchat.textContent = subimg.data?.chatUpdates.name + ': ' + subimg.data?.chatUpdates.text + '\n'
       chats?.appendChild(newchat)
-      badWordDetection(subimg.data?.chatUpdates.name, subimg.data?.chatUpdates.text)
+
       toast('Message from ' + subimg.data?.chatUpdates.name + ' has been sent! ouo')
       //      console.log(chats)
       //      console.log(data?.chat)
@@ -130,7 +130,7 @@ function loadchat(name: string)
     })
   }
 
-  function badWordDetection(name: string, text: string) {
+  function badWordDetection(text: string) {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getBadWordPattern(text).then(function (resp) {
      // console.log("TEST : ", resp.data.findBadWord)
@@ -194,7 +194,9 @@ function loadchat(name: string)
     const input = (document.getElementById('input_text') as HTMLInputElement)
     // helper()
     //times =1
-    //badWordDetection(input.value)
+    badWordDetection(input.value)
+
+
 
     doUpdateChatHistory(user === null ? "" : user.name, input.value)
     //    newchat.textContent = (user === null ? "" : user.name) + ': ' + input.value + '\n'
