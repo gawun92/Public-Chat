@@ -28,12 +28,12 @@ When running the code in Visual Studio Code, connecting the page with localhost:
 1. Login page - there are pre-made accounts from '/server/src/db/migrations/V1.4__Add_user.sql',
 				a user can login with one of the accounts from the table
 2. Public chat - the public chat is allowing to communicate other people.
-			     in each user's input, the bad words will be monitored.
-			     If multiple verbal abuses have been done multiple times(6 times),
-			      a user will be banned from the chat.
-			      Also, there are two features: emoji and each user' chat history.
-			      emoji buttons provide users to be able to use multiple emojis in the chat
-			      chat history button for each user is that it displays only a chosen user's chat history.
+		in each user's input, the bad words will be monitored.
+		If multiple verbal abuses have been done multiple times(6 times),
+		a user will be banned from the chat.
+		Also, there are two features: emoji and each user' chat history.
+		emoji buttons provide users to be able to use multiple emojis in the chat
+		chat history button for each user is that it displays only a chosen user's chat history.
 
 
 
