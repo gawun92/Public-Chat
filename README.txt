@@ -1,9 +1,9 @@
 To run the program, you may need:
-	1. Visual Studio Code
+  1. Visual Studio Code
   2. docker
-	3. Install NodeJS
-		- nvm install 12
-		- nvm alias default 12
+  3. Install NodeJS
+    - nvm install 12
+    - nvm alias default 12
 
 When download the source code, you may need to run the following commands:
   npm install
@@ -38,7 +38,7 @@ When running the code in Visual Studio Code, connecting the page with localhost:
 
 
 SQL tables:
-	User    - (join relation between chat and badwordpattern) - both are oneToMany
-	Chat  
-	bad_Word_Pattern
+	User    - (join relation between chat and badwordpattern); both are oneToMany
+	Chat    -  all users' chat history is saved into the table
+	bad_Word_Pattern - bad words' patterns are saved into the table. 
 	emoji
